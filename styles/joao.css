@@ -1,0 +1,27 @@
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.banner{
+    width: 100vw;
+    height: 20vh;
+    background-image: url(https://alivreouvertdotnet.files.wordpress.com/2014/12/poudlard.jpg);
+    background-position: 50% 35%;
+    filter: brightness(0.6);  
+}
+
+.quizz-title{
+    display: flex;
+    position: fixed;
+    top:0;
+    left: 0;
+    height: 20vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    font-size: 39px;
+    color: #ffffff;
+    
+    z-index: 1;
+}

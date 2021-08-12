@@ -58,8 +58,6 @@ ul.other-quizzes{
     margin-bottom: 30px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    
 }
 
 .no-user-quizzes{
@@ -99,6 +97,7 @@ ul.other-quizzes{
     width: 341px;
     height: 181px;
     margin-bottom: 10px;
+    margin-right: 10px;
     border-radius: 5px;
     }
 
@@ -134,16 +133,19 @@ ul.other-quizzes{
     
     main{
         width: 100%;
-        padding-left: 15px;
-        padding-right: 15px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     div.list-title{
         justify-content: space-between;
     }
 
+    .quizz-thumbnail{
+        margin-right: 0px;
+    }
     ul.user-quizzes, 
-    ul.other-quizzes {
-    justify-content: space-around;
+    ul.other-quizzes{
+        justify-content: space-around;
     }
 }

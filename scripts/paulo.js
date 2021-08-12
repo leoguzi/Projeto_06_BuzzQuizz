@@ -51,7 +51,7 @@ function createQuestions(){
 
         if(i === 0){
             questionScreen.innerHTML += `<div class="question${i+1}">
-        <section class="content questions">
+        <section class="content questions showing-question">
             <h4>Pergunta ${i+1}</h4>
             <article class="question">
                 <input type="text" placeholder="Texto da pergunta">
@@ -79,7 +79,7 @@ function createQuestions(){
         
         <section class="content hiden some">
             <h4>Pergunta ${i+1}</h4>
-            <ion-icon name="create-outline"></ion-icon>
+            <ion-icon name="create-outline" onclick="showQuestion(this)"></ion-icon>
         </section>
         </div>`;
         }else {
@@ -112,7 +112,7 @@ function createQuestions(){
             
             <section class="content hiden">
                 <h4>Pergunta ${i+1}</h4>
-                <ion-icon name="create-outline"></ion-icon>
+                <ion-icon name="create-outline" onclick="showQuestion(this)"></ion-icon>
             </section>
             </div>`;
         }
@@ -124,12 +124,81 @@ function createQuestions(){
 
 }
 
+function showQuestion(element){
+    let hidenInputs = element.parentNode;
+    let showInputs =  hidenInputs.parentNode.querySelector(".questions");
+    
+    let showingInputs = document.querySelector(".showing-question");
+    let hideInputs = showingInputs.parentNode.querySelector(".hiden");
+    showingInputs.classList.remove("showing-question");
+    showingInputs.classList.add("some");
+    hideInputs.classList.remove("some");
+
+    hidenInputs.classList.add("some");
+    showInputs.classList.remove("some");
+    showInputs.classList.add("showing-question");
+}
+
+function showLevel(element){
+    let hidenInputs = element.parentNode;
+    let showInputs =  hidenInputs.parentNode.querySelector(".questions");
+    
+    let showingInputs = document.querySelector(".showing-level");
+    let hideInputs = showingInputs.parentNode.querySelector(".hiden");
+    showingInputs.classList.remove("showing-level");
+    showingInputs.classList.add("some");
+    hideInputs.classList.remove("some");
+
+    hidenInputs.classList.add("some");
+    showInputs.classList.remove("some");
+    showInputs.classList.add("showing-level");
+}
+
 
 function createLevels(){
     let questionScreen = document.querySelector(".ask");
     let levelScreen = document.querySelector(".levels");
     questionScreen.classList.add("some");
     levelScreen.classList.remove("some");
+
+
+    levelScreen.innerHTML += `<h3>Agora, decida os níveis</h3>`;
+
+    for(let i=0; i<levelsNumber; i++){
+        if(i === 0){
+            levelScreen.innerHTML += `<div class="level${i+1}">
+            <section class="content questions showing-level">
+            <h3>Nível ${i+1}</h3>
+            <input type="text" placeholder="Título do nível">
+            <input type="text" placeholder="% de acerto mínima">
+            <input type="text" placeholder="URL da imagem do nível">
+            <input type="text" placeholder="Descrição do nível">
+        </section>
+
+        <section class="content hiden some">
+            <h4>Nível ${i+1}</h4>
+            <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
+        </section>
+        </div>`;
+        }else{
+            levelScreen.innerHTML += `<div class="level${i+1}">
+            <section class="content questions some">
+            <h3>Nível ${i+1}</h3>
+            <input type="text" placeholder="Título do nível">
+            <input type="text" placeholder="% de acerto mínima">
+            <input type="text" placeholder="URL da imagem do nível">
+            <input type="text" placeholder="Descrição do nível">
+        </section>
+
+        <section class="content hiden">
+            <h4>Nível ${i+1}</h4>
+            <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
+        </section>
+        </div>`;
+        }
+    }
+
+    levelScreen.innerHTML += `<button onclick="finishQuizz()">Finalizar Quizz</button>`
 }
 
 function finishQuizz(){

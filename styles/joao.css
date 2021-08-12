@@ -1,0 +1,44 @@
+body{
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fafafa;
+   
+}
+*{
+    box-sizing: padding-box;
+}
+
+.banner{
+    width: 100vw;
+    height: 20vh;
+    background-image: url(https://alivreouvertdotnet.files.wordpress.com/2014/12/poudlard.jpg);
+    background-position: 50% 35%;
+    filter: brightness(0.6);  
+    position: relative;
+}
+
+.quizz-title{
+    display: flex;
+    position: absolute;
+    top:0;
+    left: 0;
+    height: 20vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    font-size: 39px;
+    color: #ffffff;
+    z-index: 1;
+}
+
+.question-box{
+    margin: 5vh 0 5vh 0;
+    width: 52.5vw;
+    height: 52.5vh;
+    padding: 2.1vh 2.5vw 2.1vh 2.5vw; 
+    background-color: #ffffff;
+    border: solid 1px black;
+}

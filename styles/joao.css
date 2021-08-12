@@ -4,7 +4,7 @@ body{
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background-color: #fafafa;
+    background-color: #f3f2f2;
 
 }
 *{
@@ -43,7 +43,6 @@ body{
     height: 75vh;
     padding: 2.1vh 2.5vw 2.1vh 2.5vw;
     background-color: #ffffff;
-    border: solid 1px black;
 }
 
 .question{

@@ -1,5 +1,5 @@
 const URL_SERVER_QUIZZES = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes";
-let QUIZZ_ID = 3;               
+let QUIZZ_ID = 1;               
 
 let promise = axios.get(URL_SERVER_QUIZZES +'/'+ QUIZZ_ID);
 promise.then(getQuizz);
@@ -26,25 +26,20 @@ function showQuestions(quizzQuestions){
     let p = 0;
     for(let i = 0; i < quizzQuestions.length; i++){
         questions.innerHTML +=` <li class="question-box" >
-                                        <div class="question">
-                                            ${quizzQuestions[i].title}
-                                        </div> 
-                                        <div class="answers" id="${i}">
-                                        </div>
+                                    <div class="question">
+                                         ${quizzQuestions[i].title}
+                                    </div> 
+                                    <div class="answers" id="${i}">
+                                    </div>
                                 </li>`;
-            console.log(" i: ",i);
         let = quizzAnswers = quizzQuestions[i].answers;
         quizzAnswers.sort(sortAnswers);
         let answers = document.getElementById(i);
         for(let j = 0; j < quizzAnswers.length; j++){
-            answers.innerHTML +=`
-                                    <div class="answer">
-                                        <img src="${quizzAnswers[j].image}" >
-                                        <strong>${quizzAnswers[j].text}</strong>
-                                    </div>
-                                `; 
-                                
-            console.log("j: ",j);
+            answers.innerHTML +=`<div class="answer" onclick="selectAnswer(this)">
+                                    <img src="${quizzAnswers[j].image}" >
+                                    <strong>${quizzAnswers[j].text}</strong>
+                                </div>`; 
         }
         answers = [];   
     }
@@ -53,4 +48,14 @@ function showQuestions(quizzQuestions){
 function sortAnswers(){
     
     return Math.floor(Math.random() * 10);
+}
+
+function selectAnswer(element){
+    const pai = element.parentNode.querySelectorAll(".answers > .answer")
+    for(let i = 0; i<pai.length; i++){
+        console.log(pai[i]);
+        pai[i].classList.add("opac");
+    }
+    console.log("ok");
+    element.classList.remove("opac");   
 }

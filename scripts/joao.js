@@ -59,3 +59,4 @@ function selectAnswer(element){
     console.log("ok");
     element.classList.remove("opac");   
 }
+

@@ -85,13 +85,18 @@ main{
 .answer img{
     width: 100%;
     height: 85%;
-    
 } 
 
 
-.answer:hover{
-    opacity: 0.5;
-    color: red;
+.opac{
+    opacity: 0.5;  
+}
+.green{
+    color: green;
+}
+
+.red{
+    color:red;
 }
 
 .end-quizz-box{

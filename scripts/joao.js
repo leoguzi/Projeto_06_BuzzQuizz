@@ -32,19 +32,16 @@ function showQuestions(quizzQuestions){
                                         <div class="answers" id="${i}">
                                         </div>
                                 </li>`;
-            console.log(" i: ",i);
         let = quizzAnswers = quizzQuestions[i].answers;
         quizzAnswers.sort(sortAnswers);
         let answers = document.getElementById(i);
         for(let j = 0; j < quizzAnswers.length; j++){
             answers.innerHTML +=`
-                                    <div class="answer">
+                                    <div class="answer" onclick="selectAnswer(this)">
                                         <img src="${quizzAnswers[j].image}" >
                                         <strong>${quizzAnswers[j].text}</strong>
                                     </div>
                                 `; 
-                                
-            console.log("j: ",j);
         }
         answers = [];   
     }
@@ -53,4 +50,10 @@ function showQuestions(quizzQuestions){
 function sortAnswers(){
     
     return Math.floor(Math.random() * 10);
+}
+
+function selectAnswer(element){
+    element.classList.add("opac");
+    
+    
 }

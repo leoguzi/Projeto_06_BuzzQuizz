@@ -36,12 +36,12 @@ main {
     
 }
 
-.list-title{
+.title{
     display: flex;
     align-items: center;
     font-weight: bold;
     font-size: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .list-title h1{
@@ -58,6 +58,7 @@ ul.other-quizzes{
     margin-bottom: 30px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .no-user-quizzes{
@@ -97,7 +98,7 @@ ul.other-quizzes{
     width: 341px;
     height: 181px;
     margin-bottom: 10px;
-    margin-right: 10px;
+    
     border-radius: 5px;
     }
 

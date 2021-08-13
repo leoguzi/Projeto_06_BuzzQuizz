@@ -32,51 +32,17 @@ let quizz = {
 let questionsNumber = 0;
 let levelsNumber = 0;
 
-function isValidURL(string) {
-    const res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-    return (res !== null)
-  };
-
 
 function createQuestions(){
     let basicScreen = document.querySelector(".basics");
     let questionScreen = document.querySelector(".ask");
     basicScreen.classList.add("some");
-    questionScreen.classList.remove("some")
-    /*quizz tittle validation*/
-    const title_element = document.querySelector(".title");
+    questionScreen.classList.remove("some");
+    quizz.title = document.querySelector(".title").value;
+    quizz.image = document.querySelector(".URL").value;
+    questionsNumber = document.querySelector(".questions-number").value;
+    levelsNumber = document.querySelector(".levels-number").value
     
-    if(title_element.value.length < 20 ){
-        alert("O nome do quizz deve ter pelo menos 20 caracteres");
-    }
-    else{
-        quizz.title = title_element.value;
-    }
-    /*quizz image url validation*/
-    const img_url_element = document.querySelector(".URL");
-    if(isValidURL(img_url_element.value)){
-        quizz.image = img_url_element.value;
-    }
-    else{
-        alert("A URL da imagem deve ser valida.")
-    }
-    /*number of questions validation*/
-    number_of_questions_element = document.querySelector(".questions-number");
-    if(number_of_questions_element.value < 3){
-        alert("O quizz deve ter pelo menos 3 perguntas!");
-    }
-    else{
-        questionsNumber = number_of_questions_element.value;
-    }
-    /*number of levels validation*/
-    number_of_levels_element = document.querySelector(".levels-number");
-    if(number_of_levels_element.value < 2){
-        alert("O quizz deve ter pelo menos 2 níveis!");
-    }
-    else{
-        levelsNumber = number_of_levels_element.value;
-    }     
-
     questionScreen.innerHTML += `<h3>Crie suas perguntas</h3>`;
 
     for(let i=0; i < questionsNumber; i++){
@@ -152,6 +118,7 @@ function createQuestions(){
     }
 
     questionScreen.innerHTML += `<button onclick="createLevels()">Prosseguir pra criar níveis</button>`;
+
 
 }
 

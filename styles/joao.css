@@ -249,6 +249,7 @@ main{
     }
     .end-quizz-img-message p{
         width: 80%;
+        text-align: left;
     }
     .end-quizz-img-message img{
         width: 80%;

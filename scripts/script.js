@@ -1,5 +1,5 @@
 const quizz_url = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/"
-const main = document.querySelector("main");
+const main = document.querySelector(".main");
 let local_user_quizzes = getLocalQuizzesIDs();
 let new_quizz = null
 
@@ -133,21 +133,20 @@ function checkBoolArray(array){
 }
 
 function createQuizzForm(){
-    
-    main.innerHTML = `<div class="container basics">
-                        <h1 class = "title">Comece pelo começo</h1>
+    main.classList.add("forms");
+    main.innerHTML = `  <h1 class="form-title">Comece pelo começo</h1>
                         <section class="content">
-                            <input class="quizz_title" type="text" placeholder="Título do seu quizz">
+                            <input class="quizz-title" type="text" placeholder="Título do seu quizz">
                             <input class="URL" type="url" placeholder="URL da imagem do seu quizz">
                             <input class="questions-number" type="text" placeholder="Quantidade de perguntas do quizz">
                             <input class="levels-number" type="text" placeholder="Quantidade de níveis do quizz">
-                            </section>
-                            <button onclick="validateQuizzData()">Prosseguir pra criar perguntas</button>
-                    </div>`
+                        </section>
+                        <button class ="form-button" onclick="validateQuizzData()">Prosseguir pra criar perguntas</button>`
 }
+
 //validates the data and starts filling the new_quizz object
 function validateQuizzData(){
-    const title = document.querySelector(".quizz_title").value;
+    const title = document.querySelector(".quizz-title").value;
     const img_url = document.querySelector(".URL").value;
     const number_of_questions = document.querySelector(".questions-number").value;
     const number_of_levels = document.querySelector(".levels-number").value;
@@ -164,40 +163,40 @@ function validateQuizzData(){
 }
 
 function createQuestionsForm(){
-    main.classList.add("forms");
-    main.innerHTML = `<h1 class="title">Crie suas perguntas</h3>
-                        <div class="container ask"></div>`
-    const questions_form_container = main.querySelector(".container.ask");
-    for(let i=0; i<3; i++){ 
+    
+    main.innerHTML = `<h1 class="form-title">Crie suas perguntas</h1>
+                        <div class="questions"></div>`
+    const questions_form_container = main.querySelector(".questions");
+    for(let i=0; i<new_quizz.questions.length; i++){ 
         if(i === 0){
             questions_form_container.innerHTML += `<div class="question-container">
                                                         <section class="content questions showing-question">
-                                                            <h4 class= "title">Pergunta ${i+1}</h4>
+                                                            <h2 class= "title">Pergunta ${i+1}</h2>
                                                             <article class="question">
                                                                 <input class="question-text" type="text" placeholder="Texto da pergunta">
                                                                 <input class="question-color" "type="text" placeholder="Cor de fundo da pergunta">
                                                             </article>
-                                                            <h4 class= "title">Resposta correta</h4>
-                                                            <article class="question right-answer">
+                                                            <h2 class= "title">Resposta correta</h2>
+                                                            <article class="question">
                                                                 <input class="right-answer-text" type="text" placeholder="Resposta correta">
                                                                 <input class="right-answer-img" type="text" placeholder="URL da imagem">
                                                             </article>
-                                                            <h4 class= "title">Respostas incorretas</h4>
-                                                            <article class="question wrong-answer">
+                                                            <h2 class= "title">Respostas incorretas</h2>
+                                                            <article class="question">
                                                                 <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 1">
                                                                 <input class="wrong-answer-img" type="text" placeholder="URL da imagem 1">
                                                             </article>
-                                                            <article class="question wrong-answer">
+                                                            <article class="question">
                                                                 <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 2">
                                                                 <input class="wrong-answer-img" type="text" placeholder="URL da imagem 2">
                                                             </article>
-                                                            <article class="question wrong-answer">
+                                                            <article class="question">
                                                                 <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 3">
                                                                 <input class="wrong-answer-img" type="text" placeholder="URL da imagem 3">
                                                             </article>
                                                         </section>
                                                         <section class="content hiden some">
-                                                            <h4 class= "title">Pergunta ${i+1}</h4>
+                                                            <h2 class= "title">Pergunta ${i+1}</h2>
                                                             <ion-icon name="create-outline" onclick="showQuestion(this)"></ion-icon>
                                                         </section>
                                                     </div>`;
@@ -205,38 +204,38 @@ function createQuestionsForm(){
         else {
             questions_form_container.innerHTML += `<div class="question-container">
                                                         <section class="content questions some">
-                                                            <h4 class ="title">Pergunta ${i+1}</h4>
+                                                            <h2 class ="title">Pergunta ${i+1}</h2>
                                                             <article class="question">
                                                                 <input class="question-text" type="text" placeholder="Texto da pergunta">
                                                                 <input class="question-color" "type="text" placeholder="Cor de fundo da pergunta">
                                                             </article>
-                                                            <h4 class= "title">Resposta correta</h4>
-                                                            <article class="question right-answer">
+                                                            <h2 class= "title">Resposta correta</h2>
+                                                            <article class="question">
                                                                 <input class="right-answer-text" type="text" placeholder="Resposta correta">
                                                                 <input class="right-answer-img" type="text" placeholder="URL da imagem">
                                                             </article>
-                                                            <h4 class= "title">Respostas incorretas</h4>
-                                                            <article class="question wrong-answer">
+                                                            <h2 class= "title">Respostas incorretas</h2>
+                                                            <article class="question">
                                                                 <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 1">
                                                                 <input class="wrong-answer-img" type="text" placeholder="URL da imagem 1">
                                                             </article>
-                                                            <article class="question wrong-answer">
+                                                            <article class="question">
                                                                 <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 2">
                                                                 <input class="wrong-answer-img" type="text" placeholder="URL da imagem 2">
                                                             </article>
-                                                            <article class="question wrong-answer">
+                                                            <article class="question">
                                                                 <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 3">
                                                                 <input class="wrong-answer-img" type="text" placeholder="URL da imagem 3">
                                                             </article>
                                                         </section>
                                                         <section class="content hiden">
-                                                            <h4 class= "title">Pergunta ${i+1}</h4>
+                                                            <h2 class= "title">Pergunta ${i+1}</h2>
                                                             <ion-icon name="create-outline" onclick="showQuestion(this)"></ion-icon>
                                                         </section>
                                                     </div>`;
         }
     }
-    questions_form_container.innerHTML += `<button onclick="validateQuestionsData()">Prosseguir pra criar níveis</button>`;
+    questions_form_container.innerHTML += `<button class="form-button"onclick="validateQuestionsData()">Prosseguir pra criar níveis</button>`;
 }
 
 //validates the data from the questions form and put the questions data in the new_quizz object
@@ -454,7 +453,7 @@ function finishQuizz(object){
 }
 
 function showCreatedQuizz(object){
-    main.innerHTML = `<div class="container finish">
+    main.innerHTML = `<div class="forms-container finish">
                             <h3>Seu quizz está pronto!</h3>
                             <div class="quizz-finished">
                                 <img src=${object.data.image}>

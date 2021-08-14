@@ -330,24 +330,6 @@ function showLevel(element){
     showInputs.classList.add("showing-level");
 }
 
-function hasTenChar(string){
-    if(!string){
-        return false;
-    }
-    else{
-        return string.length >= 10;
-    }
-}
-
-function hasThirtyChar(string){
-    if(!string){
-        return false;
-    }
-    else{
-        return string.length >= 30;
-    }
-}
-
 function isBetween0And100(string){
     const number = Number(string);
     if(number >= 0 && number <= 100){
@@ -429,7 +411,7 @@ function validateLevelsData(){
 
             percents.push(Number(min_percent));
         
-        const data_is_valid = hasTenChar(level_title) && isValidURL(URL) && isBetween0And100(min_percent) && hasThirtyChar(description);
+        const data_is_valid = checkStringLength(level_title, 10) && isValidURL(URL) && isBetween0And100(min_percent) && checkStringLength(description, 30);
         if(data_is_valid){
             new_quizz.levels.push({
                 title: level_title,
@@ -443,16 +425,42 @@ function validateLevelsData(){
         }
     }
 
+    console.log(validOnes, percents)
+
     if(validOnes === all_levels.length && atLeastOneZero(percents)){
-        finishQuizz();
+        sendQuizzToServer();
     }else{
         alert("Algo está errado! Verifique os dados.");
     }
 
-    console.log(new_quizz.levels);
 }
 
 
-function finishQuizz(){
-    console.log("yeeeeyyy");
+function sendQuizzToServer(){
+    axios.post(`${quizz_url}quizzes`, new_quizz)
+        .then(finishQuizz)
+        .catch(console.log)
+}
+
+function finishQuizz(object){
+    console.log(object);
+    addLocalQuizzID(object.data.id);
+
+
+    axios.get(`${quizz_url}quizzes/${object.data.id}`)
+        .then(showCreatedQuizz);
+
+    
+}
+
+function showCreatedQuizz(object){
+    main.innerHTML = `<div class="container finish">
+                            <h3>Seu quizz está pronto!</h3>
+                            <div class="quizz-finished">
+                                <img src=${object.data.image}>
+                                <span>${object.data.title}</span>
+                            </div>        
+                            <button>Acessar Quizz</button>
+                            <p>Voltar pra home</p>
+                        </div>`
 }

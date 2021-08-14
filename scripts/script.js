@@ -110,6 +110,7 @@ function checkStringLength(string, length){
         return string.length >= length && string.length <= 65;
     }
 }
+
 //verifies the image url
 function isValidURL(string) {
     const res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
@@ -291,10 +292,10 @@ function validateQuestionsData(){
     is_valid = checkBoolArray(validated_data);
     console.log(new_quizz);
     if(at_least_one_wrong_answer && is_valid){
-        console.log("Pode continuar!!!")
+        createLevelsForm();
     }
     else{
-        alert("Verifique os dados!");
+        alert("Algo está errado! Verifique os dados!");
     }
 }
 
@@ -313,4 +314,145 @@ function showQuestion(element){
 
 function errorMessage(error){
     console.log(error.response.status);
+}
+
+function showLevel(element){
+    let hidenInputs = element.parentNode;
+    let showInputs =  hidenInputs.parentNode.querySelector(".questions");
+    let showingInputs = document.querySelector(".showing-level");
+    let hideInputs = showingInputs.parentNode.querySelector(".hiden");
+    showingInputs.classList.remove("showing-level");
+    showingInputs.classList.add("some");
+    hideInputs.classList.remove("some");
+
+    hidenInputs.classList.add("some");
+    showInputs.classList.remove("some");
+    showInputs.classList.add("showing-level");
+}
+
+function hasTenChar(string){
+    if(!string){
+        return false;
+    }
+    else{
+        return string.length >= 10;
+    }
+}
+
+function hasThirtyChar(string){
+    if(!string){
+        return false;
+    }
+    else{
+        return string.length >= 30;
+    }
+}
+
+function isBetween0And100(string){
+    const number = Number(string);
+    if(number >= 0 && number <= 100){
+        return true
+    }else{
+        return false;
+    }
+}
+
+function atLeastOneZero(array){
+    let zero = 0;
+    for(let i=0; i<array.length; i++){
+        if(array[i] === 0){
+            zero++;
+        }
+    }
+
+    if(zero >= 1){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function createLevelsForm(){
+    main.innerHTML = `<h1 class="title">Agora, decida os níveis</h3>
+                        <div class="container levels"></div>`;
+    const levels_form_container = main.querySelector(".container.levels");
+
+    for(let i=0; i<quizz.levels.length; i++){ 
+        if(i === 0){
+            levels_form_container.innerHTML +=  `<div class="container-level">
+            <section class="content questions showing-level">
+            <h3>Nível ${i+1}</h3>
+            <input class="level-title" type="text" placeholder="Título do nível">
+            <input class="min-percent" type="text" placeholder="% de acerto mínima">
+            <input class="level-URL" type="text" placeholder="URL da imagem do nível">
+            <input class="description" type="text" placeholder="Descrição do nível">
+        </section>
+
+        <section class="content hiden some">
+            <h4>Nível ${i+1}</h4>
+            <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
+        </section>
+        </div>`;
+        }
+        else {
+            levels_form_container.innerHTML +=`<div class="container-level">
+            <section class="content questions some">
+            <h3>Nível ${i+1}</h3>
+            <input class="level-title" type="text" placeholder="Título do nível">
+            <input class="min-percent" type="text" placeholder="% de acerto mínima">
+            <input class="level-URL" type="text" placeholder="URL da imagem do nível">
+            <input class="description" type="text" placeholder="Descrição do nível">
+        </section>
+
+        <section class="content hiden">
+            <h4>Nível ${i+1}</h4>
+            <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
+        </section>
+        </div>`;
+        }
+    }
+    levels_form_container.innerHTML += `<button onclick="validateLevelsData()">Finalizar Quizz</button>`;
+
+}
+
+function validateLevelsData(){
+    const all_levels = document.querySelectorAll(".container-level");
+    new_quizz.levels = [];
+    let percents = [];
+    let validOnes = 0;
+
+    for(let i=0; i<all_levels.length; i++){
+        const level_title = all_levels[i].querySelector(".level-title").value;
+        const min_percent = all_levels[i].querySelector(".min-percent").value;
+        const URL = all_levels[i].querySelector(".level-URL").value;
+        const description = all_levels[i].querySelector(".description").value;
+
+            percents.push(Number(min_percent));
+        
+        const data_is_valid = hasTenChar(level_title) && isValidURL(URL) && isBetween0And100(min_percent) && hasThirtyChar(description);
+        if(data_is_valid){
+            new_quizz.levels.push({
+                title: level_title,
+                image: URL,
+                text: description,
+                minValue: Number(min_percent)
+            });
+
+            validOnes++;
+            
+        }
+    }
+
+    if(validOnes === all_levels.length && atLeastOneZero(percents)){
+        finishQuizz();
+    }else{
+        alert("Algo está errado! Verifique os dados.");
+    }
+
+    console.log(new_quizz.levels);
+}
+
+
+function finishQuizz(){
+    console.log("yeeeeyyy");
 }

@@ -116,10 +116,6 @@ function createQuestions(){
         }
         
     }
-
-    questionScreen.innerHTML += `<button onclick="createLevels()">Prosseguir pra criar níveis</button>`;
-
-
 }
 
 function showQuestion(element){

@@ -102,19 +102,33 @@ function newQuizzObject(questions, levels){
 }
 
 //verifies if a string is at least 20 characters long
-function hasTwentyChar(string){
+function checkStringLength(string, length){
     if(!string){
         return false;
     }
     else{
-        console.log(string);
-        return string.length >= 20;
+        return string.length >= length && string.length <= 65;
     }
 }
 //verifies the image url
 function isValidURL(string) {
     const res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
     return (res !== null)
+}
+
+function isValidHexColor(string){
+    const res = string.match(/^#[0-9A-F]{6}$/i);
+    return (res != null);
+}
+
+//cheks if all the validation results are true
+function checkBoolArray(array){
+    for(let i = 0; i<array.length; i++){
+        if (array[i] === false){
+            return false;
+        }
+    }
+    return true
 }
 
 function createQuizzForm(){
@@ -136,7 +150,7 @@ function validateQuizzData(){
     const img_url = document.querySelector(".URL").value;
     const number_of_questions = document.querySelector(".questions-number").value;
     const number_of_levels = document.querySelector(".levels-number").value;
-    const data_is_valid = hasTwentyChar(title) && isValidURL(img_url) && number_of_questions >= 3 && number_of_levels >= 2
+    const data_is_valid = checkStringLength(title, 20) && isValidURL(img_url) && number_of_questions >= 3 && number_of_levels >= 2
     if(data_is_valid){
         new_quizz = newQuizzObject(number_of_questions, number_of_levels);
         quizz.title = title;
@@ -153,102 +167,145 @@ function createQuestionsForm(){
     main.innerHTML = `<h1 class="title">Crie suas perguntas</h3>
                         <div class="container ask"></div>`
     const questions_form_container = main.querySelector(".container.ask");
-    for(let i=0; i<quizz.questions.length; i++){ 
+    for(let i=0; i<3; i++){ 
         if(i === 0){
-            questions_form_container.innerHTML += `<div class="question${i+1}">
-        <section class="content questions showing-question">
-            <h4 class= "title">Pergunta ${i+1}</h4>
-            <article class="question">
-                <input type="text" placeholder="Texto da pergunta">
-                <input type="text" placeholder="Cor de fundo da pergunta">
-            </article>
-            <h4 class= "title">Resposta correta</h4>
-            <article class="question right-answer">
-                <input type="text" placeholder="Resposta correta">
-                <input type="text" placeholder="URL da imagem">
-            </article>
-            <h4 class= "title">Respostas incorretas</h4>
-            <article class="question wrong-answer">
-                <input type="text" placeholder="Resposta incorreta 1">
-                <input type="text" placeholder="URL da imagem">
-            </article>
-            <article class="question wrong-answer">
-                <input type="text" placeholder="Resposta incorreta 2">
-                <input type="text" placeholder="URL da imagem 2">
-            </article>
-            <article class="question wrong-answer">
-                <input type="text" placeholder="Resposta incorreta 3">
-                <input type="text" placeholder="URL da imagem 3">
-            </article>
-        </section>
-        
-        <section class="content hiden some">
-            <h4 class= "title">Pergunta ${i+1}</h4>
-            <ion-icon name="create-outline" onclick="showQuestion(this)"></ion-icon>
-        </section>
-        </div>`;
+            questions_form_container.innerHTML += `<div class="question-container">
+                                                        <section class="content questions showing-question">
+                                                            <h4 class= "title">Pergunta ${i+1}</h4>
+                                                            <article class="question">
+                                                                <input class="question-text" type="text" placeholder="Texto da pergunta">
+                                                                <input class="question-color" "type="text" placeholder="Cor de fundo da pergunta">
+                                                            </article>
+                                                            <h4 class= "title">Resposta correta</h4>
+                                                            <article class="question right-answer">
+                                                                <input class="right-answer-text" type="text" placeholder="Resposta correta">
+                                                                <input class="right-answer-img" type="text" placeholder="URL da imagem">
+                                                            </article>
+                                                            <h4 class= "title">Respostas incorretas</h4>
+                                                            <article class="question wrong-answer">
+                                                                <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 1">
+                                                                <input class="wrong-answer-img" type="text" placeholder="URL da imagem 1">
+                                                            </article>
+                                                            <article class="question wrong-answer">
+                                                                <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 2">
+                                                                <input class="wrong-answer-img" type="text" placeholder="URL da imagem 2">
+                                                            </article>
+                                                            <article class="question wrong-answer">
+                                                                <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 3">
+                                                                <input class="wrong-answer-img" type="text" placeholder="URL da imagem 3">
+                                                            </article>
+                                                        </section>
+                                                        <section class="content hiden some">
+                                                            <h4 class= "title">Pergunta ${i+1}</h4>
+                                                            <ion-icon name="create-outline" onclick="showQuestion(this)"></ion-icon>
+                                                        </section>
+                                                    </div>`;
         }
         else {
-            questions_form_container.innerHTML += `<div class="question${i+1}">
-            <section class="content questions some">
-                <h4 class ="title">Pergunta ${i+1}</h4>
-                <article class="question">
-                    <input type="text" placeholder="Texto da pergunta">
-                    <input type="text" placeholder="Cor de fundo da pergunta">
-                </article>
-                <h4 class= "title">Resposta correta</h4>
-                <article class="question right-answer">
-                    <input type="text" placeholder="Resposta correta">
-                    <input type="text" placeholder="URL da imagem">
-                </article>
-                <h4 class= "title">Respostas incorretas</h4>
-                <article class="question wrong-answer">
-                    <input type="text" placeholder="Resposta incorreta 1">
-                    <input type="text" placeholder="URL da imagem">
-                </article>
-                <article class="question wrong-answer">
-                    <input type="text" placeholder="Resposta incorreta 2">
-                    <input type="text" placeholder="URL da imagem 2">
-                </article>
-                <article class="question wrong-answer">
-                    <input type="text" placeholder="Resposta incorreta 3">
-                    <input type="text" placeholder="URL da imagem 3">
-                </article>
-            </section>
-            
-            <section class="content hiden">
-                <h4 class= "title">Pergunta ${i+1}</h4>
-                <ion-icon name="create-outline" onclick="showQuestion(this)"></ion-icon>
-            </section>
-            </div>`;
+            questions_form_container.innerHTML += `<div class="question-container">
+                                                        <section class="content questions some">
+                                                            <h4 class ="title">Pergunta ${i+1}</h4>
+                                                            <article class="question">
+                                                                <input class="question-text" type="text" placeholder="Texto da pergunta">
+                                                                <input class="question-color" "type="text" placeholder="Cor de fundo da pergunta">
+                                                            </article>
+                                                            <h4 class= "title">Resposta correta</h4>
+                                                            <article class="question right-answer">
+                                                                <input class="right-answer-text" type="text" placeholder="Resposta correta">
+                                                                <input class="right-answer-img" type="text" placeholder="URL da imagem">
+                                                            </article>
+                                                            <h4 class= "title">Respostas incorretas</h4>
+                                                            <article class="question wrong-answer">
+                                                                <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 1">
+                                                                <input class="wrong-answer-img" type="text" placeholder="URL da imagem 1">
+                                                            </article>
+                                                            <article class="question wrong-answer">
+                                                                <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 2">
+                                                                <input class="wrong-answer-img" type="text" placeholder="URL da imagem 2">
+                                                            </article>
+                                                            <article class="question wrong-answer">
+                                                                <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 3">
+                                                                <input class="wrong-answer-img" type="text" placeholder="URL da imagem 3">
+                                                            </article>
+                                                        </section>
+                                                        <section class="content hiden">
+                                                            <h4 class= "title">Pergunta ${i+1}</h4>
+                                                            <ion-icon name="create-outline" onclick="showQuestion(this)"></ion-icon>
+                                                        </section>
+                                                    </div>`;
         }
     }
     questions_form_container.innerHTML += `<button onclick="validateQuestionsData()">Prosseguir pra criar níveis</button>`;
 }
-//validates the data from the questions form and end filling the new_quizz object
 
+//validates the data from the questions form and put the questions data in the new_quizz object
 function validateQuestionsData(){
-//validar dados da pergunta aqui
-
-/* texto da resposta da pergunda, a ser inserido em quizz.question.answers posteriormente.
-{
-    text: "",
-    image: "",
-    isCorrectAnswer: false
-
-}*/
+    //array that will keep the results of the validation functions
+    let validated_data = [];
+    let is_valid = false;
+    let at_least_one_wrong_answer = false;
+    const questions = document.querySelectorAll(".question-container");
+    for(let i=0; i < questions.length; i++){
+        at_least_one_wrong_answer = false;
+        const wrong_answers = questions[i].querySelectorAll(".question.wrong-answer");
+        const question = questions[i].querySelector(".question-text").value;
+        const question_color = questions[i].querySelector(".question-color").value;
+        const right_answer = questions[i].querySelector(".right-answer-text").value;
+        const right_answer_img = questions[i].querySelector(".right-answer-img").value;
+        const is_valid_rigth_answer = checkStringLength(right_answer, 1) && isValidURL(right_answer_img);
+        is_valid = checkStringLength(question, 20) && isValidHexColor(question_color) && is_valid_rigth_answer;
+        if(is_valid){
+            const new_question = {
+                            title: question,
+                            color: question_color,
+                            answers: []
+                            }  
+            new_quizz.questions[i] = new_question; 
+            const answer = {
+                            text: right_answer,
+                            image: right_answer_img,
+                            isCorrectAnswer: true
+                            }
+            new_quizz.questions[i].answers = [answer];
+            validated_data.push(true);
+        }
+        else{
+            validated_data.push(false)
+        }
+            for(let j=0; j < wrong_answers.length; j++){
+                const wrong_answer = wrong_answers[j].querySelector(".wrong-answer-text").value;
+                const wrong_answer_img = wrong_answers[j].querySelector(".wrong-answer-img").value;
+                is_valid = checkStringLength(wrong_answer, 1) && isValidURL(wrong_answer_img);
+                if(is_valid){
+                    const answer = {
+                                    text: wrong_answer,
+                                    image: wrong_answer_img,
+                                    isCorrectAnswer: false
+                                    } 
+                    new_quizz.questions[i].answers.push(answer);
+                    at_least_one_wrong_answer = true;
+                    validated_data.push(true);
+                }
+            }
+    }
+    is_valid = checkBoolArray(validated_data);
+    console.log(new_quizz);
+    if(at_least_one_wrong_answer && is_valid){
+        console.log("Pode continuar!!!")
+    }
+    else{
+        alert("Verifique os dados!");
+    }
 }
 
 function showQuestion(element){
     let hidenInputs = element.parentNode;
     let showInputs =  hidenInputs.parentNode.querySelector(".questions");
-    
     let showingInputs = document.querySelector(".showing-question");
     let hideInputs = showingInputs.parentNode.querySelector(".hiden");
     showingInputs.classList.remove("showing-question");
     showingInputs.classList.add("some");
     hideInputs.classList.remove("some");
-
     hidenInputs.classList.add("some");
     showInputs.classList.remove("some");
     showInputs.classList.add("showing-question");

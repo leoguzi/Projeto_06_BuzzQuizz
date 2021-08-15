@@ -8,7 +8,7 @@ body{
 
 }
 *{
-    box-sizing: padding-box;
+    box-sizing: border-box;
 }
 main{
     display: flex;
@@ -51,8 +51,9 @@ main{
     background-color: #ffffff;
 }
 
-.question{
-     display: flex;
+
+.question-quizz{
+    display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;

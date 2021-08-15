@@ -153,6 +153,7 @@ ul.other-quizzes{
     border: 1px solid #d1d1d1;
     border-radius: 5px;
     outline: none;  
+    padding-left: 15px;
 }
 
 .form-button{

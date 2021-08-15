@@ -289,7 +289,8 @@ function validateQuestionsData(){
             }
     }
     is_valid = checkBoolArray(validated_data);
-    console.log(new_quizz);
+    console.log(at_least_one_wrong_answer);
+    console.log(is_valid);
     if(at_least_one_wrong_answer && is_valid){
         createLevelsForm();
     }
@@ -362,7 +363,7 @@ function createLevelsForm(){
         if(i === 0){
             levels_form_container.innerHTML +=  `<div class="container-level">
             <section class="content questions showing-level">
-            <h3>Nível ${i+1}</h3>
+            <h2 class="title">Nível ${i+1}</h2>
             <input class="level-title" type="text" placeholder="Título do nível">
             <input class="min-percent" type="text" placeholder="% de acerto mínima">
             <input class="level-URL" type="text" placeholder="URL da imagem do nível">
@@ -370,7 +371,7 @@ function createLevelsForm(){
         </section>
 
         <section class="content hiden some">
-            <h4>Nível ${i+1}</h4>
+            <h2 class="title">Nível ${i+1}</h2>
             <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
         </section>
         </div>`;
@@ -378,7 +379,7 @@ function createLevelsForm(){
         else {
             levels_form_container.innerHTML +=`<div class="container-level">
             <section class="content questions some">
-            <h3>Nível ${i+1}</h3>
+            <h2 class="title">Nível ${i+1}</h2>
             <input class="level-title" type="text" placeholder="Título do nível">
             <input class="min-percent" type="text" placeholder="% de acerto mínima">
             <input class="level-URL" type="text" placeholder="URL da imagem do nível">
@@ -386,13 +387,13 @@ function createLevelsForm(){
         </section>
 
         <section class="content hiden">
-            <h4>Nível ${i+1}</h4>
+            <h2 class="title">Nível ${i+1}</h2>
             <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
         </section>
         </div>`;
         }
     }
-    levels_form_container.innerHTML += `<button onclick="validateLevelsData()">Finalizar Quizz</button>`;
+    levels_form_container.innerHTML += `<button  class="form-button" onclick="validateLevelsData()">Finalizar Quizz</button>`;
 
 }
 
@@ -439,6 +440,7 @@ function sendQuizzToServer(){
     axios.post(`${quizz_url}quizzes`, new_quizz)
         .then(finishQuizz)
         .catch(console.log)
+        console.log(new_quizz);
 }
 
 function finishQuizz(object){

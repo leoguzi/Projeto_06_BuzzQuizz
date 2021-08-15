@@ -2,10 +2,11 @@
 //quando o usuario escolher um quizz ele vai enviar o id do quizz  para cá só precisa fazer a função
 const URL_SERVER_QUIZZES = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes";
 let QUIZZ_ID = 1;               
+function start(){
 
-let promise = axios.get(URL_SERVER_QUIZZES +'/'+ QUIZZ_ID);
-promise.then(getQuizz);
-
+    let promise = axios.get(URL_SERVER_QUIZZES +'/'+ QUIZZ_ID);
+    promise.then(getQuizz);
+}
 //até aqui a função
 
 let quizzQuestions = [];
@@ -35,6 +36,7 @@ function quizzTitle(title){
     bannerImg = title.image;
     document.getElementById('banner-img').style.backgroundImage = `url(${bannerImg})`;;
     quizzTitle.innerHTML = title.title; 
+    quizzTitle.scrollIntoView();
 }
 
 function showQuestions(quizzQuestions){
@@ -112,8 +114,8 @@ function endQuizz(){
                                 </p>
                             </div>
                         </div>
-                        <button class="restart-quizz"> Reiniciar Quizz</button>
-                        <p class="back-home">Voltar para a home</p>`;
+                        <button class="restart-quizz" onclick="restartQuizz()"> Reiniciar Quizz</button>
+                        <p class="back-home" onclick="backHome()">Voltar para a home</p>`;
     const endQuizz = document.querySelector(".end-quizz-box");
     endQuizz.scrollIntoView();
 }
@@ -140,3 +142,15 @@ function showLevels(){
         }
     }
 }
+
+function restartQuizz(){
+    questionsAnswers = [];
+    answeredQuestions = 1;
+    start();
+}
+
+function backHome(){
+    console.log("volta para a tela 1");
+}
+
+start();

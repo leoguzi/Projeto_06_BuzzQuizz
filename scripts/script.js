@@ -1,10 +1,9 @@
 const quizz_url = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/"
 const main = document.querySelector(".main");
 let local_user_quizzes = getLocalQuizzesIDs();
-let new_quizz = newQuizzObject(2, 2);
+let new_quizz = null;
 
-//getAllQuizzes();
-createQuestionsForm();
+getAllQuizzes();
 
 
 //gets the IDs from the quizzes created locally
@@ -364,35 +363,6 @@ function createLevelsForm(){
     for(let i=0; i<quizz.levels.length; i++){ 
         if(i === 0){
             levels_form_container.innerHTML +=  `<div class="container-level">
-<<<<<<< HEAD
-                                                    <section class="content questions showing-level">
-                                                        <h class="title"2>Nível ${i+1}</h2>
-                                                        <input class="level-title" type="text" placeholder="Título do nível">
-                                                        <input class="min-percent" type="text" placeholder="% de acerto mínima">
-                                                        <input class="level-URL" type="text" placeholder="URL da imagem do nível">
-                                                        <input class="description" type="text" placeholder="Descrição do nível">
-                                                    </section>
-                                                    <section class="content hiden some">
-                                                        <h2 class"title">Nível ${i+1}</h2>
-                                                        <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
-                                                    </section>
-                                                </div>`;
-        }
-        else {
-            levels_form_container.innerHTML +=`<div class="container-level">
-                                                    <section class="content questions some">
-                                                        <h2 class="title">Nível ${i+1}</h2>
-                                                        <input class="level-title" type="text" placeholder="Título do nível">
-                                                        <input class="min-percent" type="text" placeholder="% de acerto mínima">
-                                                        <input class="level-URL" type="text" placeholder="URL da imagem do nível">
-                                                        <input class="description" type="text" placeholder="Descrição do nível">
-                                                    </section>
-                                                    <section class="content hiden">
-                                                        <h2 class="title">Nível ${i+1}</h2>
-                                                        <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
-                                                    </section>
-                                                </div>`;
-=======
             <section class="content questions showing-level">
             <h2 class="title">Nível ${i+1}</h2>
             <input class="level-title" type="text" placeholder="Título do nível">
@@ -422,7 +392,6 @@ function createLevelsForm(){
             <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
         </section>
         </div>`;
->>>>>>> 1cfaf24535bf508afa1054ab0c62ff090d9394b5
         }
     }
     levels_form_container.innerHTML += `<button  class="form-button" onclick="validateLevelsData()">Finalizar Quizz</button>`;
@@ -487,13 +456,13 @@ function finishQuizz(object){
 }
 
 function showCreatedQuizz(object){
-    main.innerHTML = `<div class="forms-container finish">
-                            <h3>Seu quizz está pronto!</h3>
+    main.innerHTML = `<div class="finish">
+                            <h1 class="title">Seu quizz está pronto!</h1>
                             <div class="quizz-finished">
                                 <img src=${object.data.image}>
                                 <span>${object.data.title}</span>
                             </div>        
-                            <button>Acessar Quizz</button>
+                            <button class="form-button">Acessar Quizz</button>
                             <p>Voltar pra home</p>
                         </div>`
 }

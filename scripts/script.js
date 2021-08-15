@@ -54,7 +54,11 @@ function showMainPage(response) {
 
     const user_quizzes_list = document.querySelector(".user-quizzes");
     const other_quizzes_list = document.querySelector(".other-quizzes");
-    if(local_user_quizzes.length === 0){
+    let still_in_server = false;
+    for(let i=0; i<quizzes.length; i++){
+        still_in_server = local_user_quizzes.indexOf(quizzes[i].id) >= 0;
+    }
+    if(local_user_quizzes.length === 0 || !still_in_server){
         user_quizzes_list.innerHTML = 
         `<li class="no-user-quizzes">
             <spam>Você não criou nenhum quizz ainda :(</spam>

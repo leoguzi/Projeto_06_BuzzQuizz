@@ -45,7 +45,7 @@ function showQuestions(quizzQuestions){
     let p = 0;
     for(let i = 0; i < quizzQuestions.length; i++){
         questions.innerHTML +=` <li class="question-box" >
-                                    <div class="question">
+                                    <div class="question-quizz">
                                          ${quizzQuestions[i].title}
                                     </div> 
                                     <div class="answers" id="${i}">

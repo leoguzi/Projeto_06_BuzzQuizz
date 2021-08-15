@@ -6,6 +6,7 @@ let quizzQuestions = [];
 let questionsAnswers = [];
 let answeredQuestions = 1;
 let levels = []
+let restartQuizzObject;
 
 getAllQuizzes();
 
@@ -467,6 +468,7 @@ function showCreatedQuizz(object){
 }
 
 function startQuizz(thumbnail){
+    restartQuizzObject = thumbnail;
     const quizz_id = thumbnail.getAttribute("id");
     let promise = axios.get(quizz_url + "quizzes/" + quizz_id);
     promise.then(getQuizz);
@@ -480,6 +482,7 @@ function getQuizz(response){
     quizzTitle(response.data);
     quizzQuestions = response.data.questions;
     levels = response.data.levels
+    console.log(levels);
     showQuestions(quizzQuestions);
  }
 
@@ -496,6 +499,7 @@ function getQuizz(response){
     const bannerImg = title.image;
     document.getElementById('banner-img').style.backgroundImage = `url(${bannerImg})`;;
     quizzTitle.innerHTML = title.title; 
+    quizzTitle.scrollIntoView();
 }
 
 function showQuestions(quizzQuestions){
@@ -607,4 +611,15 @@ function showLevels(){
             return levels[i];
         }
     }
+}
+
+function restartQuizz(){
+    questionsAnswers = [];
+    answeredQuestions = 1;
+    startQuizz(restartQuizzObject)
+    
+}
+
+function backHome(){
+    getAllQuizzes();
 }

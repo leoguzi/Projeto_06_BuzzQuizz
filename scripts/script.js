@@ -1,11 +1,9 @@
 const quizz_url = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/"
 const main = document.querySelector(".main");
 let local_user_quizzes = getLocalQuizzesIDs();
-let new_quizz = newQuizzObject(2, 2);
+let new_quizz = null
 
-//getAllQuizzes();
-createQuestionsForm();
-
+getAllQuizzes();
 
 //gets the IDs from the quizzes created locally
 function getLocalQuizzesIDs(){
@@ -40,8 +38,8 @@ function getAllQuizzes(){
 //generate the thumbnails
 function showMainPage(response) {
     const quizzes = response.data;
-    main.innerHTML = `<div class = 'title user-quizzes'><h1>Seus Quizzes</h1>
-                        <ion-icon class= "icon" name="add-circle" onclick="createQuizzForm()"></ion-icon>
+    main.innerHTML = `<div class="user-quizzes-title"><h1 class="title">Seus Quizzes</h1>
+                        <ion-icon class="icon" name="add-circle" onclick="createQuizzForm()"></ion-icon>
                         </div>
                         <ul class="user-quizzes"></ul>
                         <h1 class="title">Todos os Quizzes</h1>
@@ -239,7 +237,6 @@ function createQuestionsForm(){
     }
     questions_form_container.innerHTML += `<button class="form-button"onclick="validateQuestionsData()">Prosseguir pra criar níveis</button>`;
 }
-
 //validates the data from the questions form and put the questions data in the new_quizz object
 function validateQuestionsData(){
     //array that will keep the results of the validation functions
@@ -286,14 +283,11 @@ function validateQuestionsData(){
                                 } 
                 new_quizz.questions[i].answers.push(answer);
                 at_least_one_wrong_answer = true;
-                console.log(is_valid);
                 validated_data.push(true);
             }
         }
     }
     is_valid = checkBoolArray(validated_data);
-    console.log(at_least_one_wrong_answer);
-    console.log(is_valid);
     if(at_least_one_wrong_answer && is_valid){
         createLevelsForm();
     }
@@ -364,35 +358,6 @@ function createLevelsForm(){
     for(let i=0; i<quizz.levels.length; i++){ 
         if(i === 0){
             levels_form_container.innerHTML +=  `<div class="container-level">
-<<<<<<< HEAD
-                                                    <section class="content questions showing-level">
-                                                        <h class="title"2>Nível ${i+1}</h2>
-                                                        <input class="level-title" type="text" placeholder="Título do nível">
-                                                        <input class="min-percent" type="text" placeholder="% de acerto mínima">
-                                                        <input class="level-URL" type="text" placeholder="URL da imagem do nível">
-                                                        <input class="description" type="text" placeholder="Descrição do nível">
-                                                    </section>
-                                                    <section class="content hiden some">
-                                                        <h2 class"title">Nível ${i+1}</h2>
-                                                        <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
-                                                    </section>
-                                                </div>`;
-        }
-        else {
-            levels_form_container.innerHTML +=`<div class="container-level">
-                                                    <section class="content questions some">
-                                                        <h2 class="title">Nível ${i+1}</h2>
-                                                        <input class="level-title" type="text" placeholder="Título do nível">
-                                                        <input class="min-percent" type="text" placeholder="% de acerto mínima">
-                                                        <input class="level-URL" type="text" placeholder="URL da imagem do nível">
-                                                        <input class="description" type="text" placeholder="Descrição do nível">
-                                                    </section>
-                                                    <section class="content hiden">
-                                                        <h2 class="title">Nível ${i+1}</h2>
-                                                        <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
-                                                    </section>
-                                                </div>`;
-=======
             <section class="content questions showing-level">
             <h2 class="title">Nível ${i+1}</h2>
             <input class="level-title" type="text" placeholder="Título do nível">
@@ -422,7 +387,6 @@ function createLevelsForm(){
             <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
         </section>
         </div>`;
->>>>>>> 1cfaf24535bf508afa1054ab0c62ff090d9394b5
         }
     }
     levels_form_container.innerHTML += `<button  class="form-button" onclick="validateLevelsData()">Finalizar Quizz</button>`;

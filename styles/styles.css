@@ -45,15 +45,24 @@ header h1{
     margin-bottom: 20px;
 }
 
+.user-quizzes-title{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.user-quizzes-title h1{
+    margin-bottom: 0;
+}
 h2.title{
     margin-top: 20px;
 }
 
-.list-title h1{
+.user-quizzes-title h1{
     margin-right: 10px;
 }
 
-.list-title .icon{
+.user-quizzes-title .icon{
     color: #ec362d;
     font-size: 30px;
 }
@@ -103,7 +112,6 @@ ul.other-quizzes{
     width: 341px;
     height: 181px;
     margin-bottom: 10px;
-    
     border-radius: 5px;
     }
 
@@ -153,7 +161,6 @@ ul.other-quizzes{
     border: 1px solid #d1d1d1;
     border-radius: 5px;
     outline: none;  
-    padding-left: 15px;
 }
 
 .form-button{
@@ -180,7 +187,7 @@ ul.other-quizzes{
 }
 
 .questions,
-.levels{
+.levels {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -263,7 +270,7 @@ p{
         padding-right: 10px;
     }
 
-    div.list-title{
+    .user-quizzes-title{
         justify-content: space-between;
     }
 

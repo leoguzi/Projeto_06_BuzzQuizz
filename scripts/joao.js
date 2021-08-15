@@ -4,12 +4,14 @@ let QUIZZ_ID = 1;
 let promise = axios.get(URL_SERVER_QUIZZES +'/'+ QUIZZ_ID);
 promise.then(getQuizz);
 let quizzQuestions = [];
+let questionsAnswers = [];
 
 function getQuizz(response){ 
     
    quizzTitle(response.data);
    quizzQuestions = response.data.questions;
    showQuestions(quizzQuestions);
+   console.log(response.data);
 }
 
 function quizzTitle(title){
@@ -21,7 +23,6 @@ function quizzTitle(title){
 
 function showQuestions(quizzQuestions){
     const questions = document.querySelector("ul")
-    console.log(quizzQuestions)
     let o = 0;
     let p = 0;
     for(let i = 0; i < quizzQuestions.length; i++){
@@ -36,10 +37,11 @@ function showQuestions(quizzQuestions){
         quizzAnswers.sort(sortAnswers);
         let answers = document.getElementById(i);
         for(let j = 0; j < quizzAnswers.length; j++){
-            answers.innerHTML +=`<div class="answer" onclick="selectAnswer(this)">
+            answers.innerHTML +=`<option class="answer" onclick="selectAnswer(this)" id="${quizzAnswers[j].isCorrectAnswer}">
                                     <img src="${quizzAnswers[j].image}" >
                                     <strong>${quizzAnswers[j].text}</strong>
-                                </div>`; 
+                                </option>`;
+        
         }
         answers = [];   
     }
@@ -51,12 +53,28 @@ function sortAnswers(){
 }
 
 function selectAnswer(element){
-    const pai = element.parentNode.querySelectorAll(".answers > .answer")
-    for(let i = 0; i<pai.length; i++){
-        console.log(pai[i]);
-        pai[i].classList.add("opac");
+    const answers = element.parentNode.querySelectorAll(".answers > .answer")
+    for(let i = 0; i<answers.length; i++){
+        answers[i].classList.add("opac");
+        answers[i].onclick = '';
+        if(answers[i].id === 'true'){
+            answers[i].classList.add("green");
+        }else{
+            answers[i].classList.add("red");
+        }
+        
     }
-    console.log("ok");
-    element.classList.remove("opac");   
+    element.classList.remove("opac");
+    questionsAnswers.push(element.id);
+    console.log(questionsAnswers);
+    setTimeout(scrollQuestion, 2000, element);
+}
+
+function scrollQuestion(element){
+    let questionsBox = element.parentNode.parentNode;
+    
+    if(questionsBox.nextElementSibling !== null){
+        questionsBox.nextElementSibling.scrollIntoView();
+    }
 }
 

@@ -406,9 +406,11 @@ p{
 
 .quizz-answer-text{
     display:block;
-    width: 50%;
+    width: 400px;
     font-weight: 700;
-    overflow-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     
 }
 

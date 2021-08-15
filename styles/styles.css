@@ -165,7 +165,8 @@ ul.other-quizzes{
     margin-bottom: 9px;
     border: 1px solid #d1d1d1;
     border-radius: 5px;
-    outline: none;  
+    outline: none;
+    padding-left: 15px;  
 }
 
 .form-button{

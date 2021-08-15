@@ -552,7 +552,6 @@ function selectAnswer(element){
     console.log(element.parentNode.parentNode.parentNode.childElementCount)
     if(answeredQuestions === element.parentNode.parentNode.parentNode.childElementCount){
         setTimeout(endQuizz, 2000);
-        console.log("ok")
     }
     console.log(answeredQuestions)
     answeredQuestions++;
@@ -596,11 +595,12 @@ function calcRightAnswers(){
     console.log("total: ", questionsAnswers.length);
     let point = trueAnswers.length/questionsAnswers.length;
     console.log(point);
-    return Math.round(point*100)
+    return Math.round(point*100);
 }
 
 function showLevels(){
     let point = calcRightAnswers();
+    levels.sort(order);
     for (let i = levels.length-1; i>= 0; i--){
         if(point > levels[i].minValue){
             return levels[i];
@@ -611,10 +611,20 @@ function showLevels(){
 function restartQuizz(){
     questionsAnswers = [];
     answeredQuestions = 1;
-    startQuizz(restartQuizzObject)
+    startQuizz(restartQuizzObject);
     
 }
 
 function backHome(){
     getAllQuizzes();
+}
+
+function order(a, b){
+    if(a.minValue < b.minValue){
+        return -1;
+    }
+    if(a.minValue > b.minValue){
+        return 1;
+    }
+    return 0;
 }

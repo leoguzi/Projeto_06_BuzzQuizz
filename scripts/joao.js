@@ -64,7 +64,6 @@ function selectAnswer(element){
         }
         
     }
-    colorAnswer();
     element.classList.remove("opac");
     questionsAnswers.push(element.id);
     console.log(questionsAnswers);
@@ -79,6 +78,3 @@ function scrollQuestion(element){
     }
 }
 
-function colorAnswer(){
-
-}

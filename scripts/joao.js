@@ -11,13 +11,15 @@ promise.then(getQuizz);
 let quizzQuestions = [];
 let questionsAnswers = [];
 let answeredQuestions = 1;
+let levels = []
 
 function getQuizz(response){ 
     
    quizzTitle(response.data);
    quizzQuestions = response.data.questions;
    showQuestions(quizzQuestions);
-   console.log(response.data);
+   levels = response.data.levels
+   console.log(levels);
 }
 
 function quizzTitle(title){
@@ -101,15 +103,13 @@ function endQuizz(){
     const main = document.querySelector("main");
     main.innerHTML += ` <div class="end-quizz-box">
                             <div class="end-quizz-title">
-                                <h2><strong>${calcRightAnswers()}% de acerto: Você é praticamente um aluno de Hogwarts!</strong></h2>
+                                <h2><strong>${calcRightAnswers()}% de acerto: ${showLevels().title}</strong></h2>
                             </div>
                             <div class="end-quizz-img-message">
-                                <img src="assets/dumbledore.png">
-                                <p>Parabéns Potterhead! Bem-vindx a Hogwarts,
-                                    aproveite o loop infinito de comida e clique 
-                                    no botão abaixo para usar o vira-tempo e reiniciar 
-                                    este teste.
-                                 </p>
+                                <img src="${showLevels().image}">
+                                <p>
+                                    ${showLevels().text}
+                                </p>
                             </div>
                         </div>
                         <button class="restart-quizz"> Reiniciar Quizz</button>
@@ -130,4 +130,13 @@ function calcRightAnswers(){
     let point = trueAnswers.length/questionsAnswers.length;
     console.log(point);
     return Math.round(point*100)
+}
+
+function showLevels(){
+    let point = calcRightAnswers();
+    for (let i = levels.length-1; i>= 0; i--){
+        if(point > levels[i].minValue){
+            return levels[i];
+        }
+    }
 }

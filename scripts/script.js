@@ -464,7 +464,7 @@ function showCreatedQuizz(object){
                             </div>        
                             <button class="form-button">Acessar Quizz</button>
                             <p>Voltar pra home</p>
-                        </div>`
+                        </div>`;
 }
 
 function startQuizz(thumbnail){
@@ -482,7 +482,6 @@ function getQuizz(response){
     quizzTitle(response.data);
     quizzQuestions = response.data.questions;
     levels = response.data.levels
-    console.log(levels);
     showQuestions(quizzQuestions);
  }
 
@@ -497,15 +496,13 @@ function getQuizz(response){
                         </ul> `;
     const quizzTitle = document.querySelector('.quizz-title h1');
     const bannerImg = title.image;
-    document.getElementById('banner-img').style.backgroundImage = `url(${bannerImg})`;;
+    document.getElementById('banner-img').style.backgroundImage = `url(${bannerImg})`;
     quizzTitle.innerHTML = title.title; 
     quizzTitle.scrollIntoView();
 }
 
 function showQuestions(quizzQuestions){
     const questions = document.querySelector("ul")
-    let o = 0;
-    let p = 0;
     for(let i = 0; i < quizzQuestions.length; i++){
         questions.innerHTML +=` <li class="question-box" >
                                     <div class="question-quizz">
@@ -531,8 +528,7 @@ function showQuestions(quizzQuestions){
 }
 
 function sortAnswers(){
-    
-    return Math.floor(Math.random() * 10);
+    return Math.random() - 0.5;
 }
 
 function selectAnswer(element){

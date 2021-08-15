@@ -1,7 +1,7 @@
 
 //quando o usuario escolher um quizz ele vai enviar o id do quizz  para cá só precisa fazer a função
 const URL_SERVER_QUIZZES = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes";
-let QUIZZ_ID = 2;               
+let QUIZZ_ID = 1;               
 
 let promise = axios.get(URL_SERVER_QUIZZES +'/'+ QUIZZ_ID);
 promise.then(getQuizz);
@@ -10,7 +10,7 @@ promise.then(getQuizz);
 
 let quizzQuestions = [];
 let questionsAnswers = [];
-let answeredQuestions = 0;
+let answeredQuestions = 1;
 
 function getQuizz(response){ 
     
@@ -21,6 +21,14 @@ function getQuizz(response){
 }
 
 function quizzTitle(title){
+    const main = document.querySelector("main");
+    main.innerHTML = `  <div class="banner" id="banner-img">
+                        </div>
+                        <div class="quizz-title" >
+                            <h1></h1> 
+                        </div>
+                        <ul>
+                        </ul> `;
     const quizzTitle = document.querySelector('.quizz-title h1');
     bannerImg = title.image;
     document.getElementById('banner-img').style.backgroundImage = `url(${bannerImg})`;;
@@ -72,8 +80,9 @@ function selectAnswer(element){
     }
     element.classList.remove("opac");
     questionsAnswers.push(element.id);
-    if(answeredQuestions < element.parentNode.parentNode.parentNode.childElementCount){
-        endQuizz()
+    if(answeredQuestions === element.parentNode.parentNode.parentNode.childElementCount){
+        setTimeout(endQuizz, 2000);
+        
     }
     answeredQuestions++;
     console.log(questionsAnswers);
@@ -88,3 +97,37 @@ function scrollQuestion(element){
     }
 }
 
+function endQuizz(){
+    const main = document.querySelector("main");
+    main.innerHTML += ` <div class="end-quizz-box">
+                            <div class="end-quizz-title">
+                                <h2><strong>${calcRightAnswers()}% de acerto: Você é praticamente um aluno de Hogwarts!</strong></h2>
+                            </div>
+                            <div class="end-quizz-img-message">
+                                <img src="assets/dumbledore.png">
+                                <p>Parabéns Potterhead! Bem-vindx a Hogwarts,
+                                    aproveite o loop infinito de comida e clique 
+                                    no botão abaixo para usar o vira-tempo e reiniciar 
+                                    este teste.
+                                 </p>
+                            </div>
+                        </div>
+                        <button class="restart-quizz"> Reiniciar Quizz</button>
+                        <p class="back-home">Voltar para a home</p>`;
+    const endQuizz = document.querySelector(".end-quizz-box");
+    endQuizz.scrollIntoView();
+}
+
+function calcRightAnswers(){
+    let trueAnswers = [];
+    for(let i =0 ; i < questionsAnswers.length; i++){
+        if(questionsAnswers[i] === 'true'){
+            trueAnswers.push(questionsAnswers[i]);
+        }
+    }
+    console.log("true: ", trueAnswers.length );
+    console.log("total: ", questionsAnswers.length);
+    let point = trueAnswers.length/questionsAnswers.length;
+    console.log(point);
+    return Math.round(point*100)
+}

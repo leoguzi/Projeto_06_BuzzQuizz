@@ -1,10 +1,16 @@
+
+//quando o usuario escolher um quizz ele vai enviar o id do quizz  para cá só precisa fazer a função
 const URL_SERVER_QUIZZES = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes";
-let QUIZZ_ID = 1;               
+let QUIZZ_ID = 2;               
 
 let promise = axios.get(URL_SERVER_QUIZZES +'/'+ QUIZZ_ID);
 promise.then(getQuizz);
+
+//até aqui a função
+
 let quizzQuestions = [];
 let questionsAnswers = [];
+let answeredQuestions = 0;
 
 function getQuizz(response){ 
     
@@ -66,6 +72,10 @@ function selectAnswer(element){
     }
     element.classList.remove("opac");
     questionsAnswers.push(element.id);
+    if(answeredQuestions < element.parentNode.parentNode.parentNode.childElementCount){
+        endQuizz()
+    }
+    answeredQuestions++;
     console.log(questionsAnswers);
     setTimeout(scrollQuestion, 2000, element);
 }

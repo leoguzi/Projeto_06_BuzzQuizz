@@ -558,21 +558,20 @@ function scrollQuestion(element){
 }
 
 function endQuizz(){
+    const main = document.querySelector("main");
     main.innerHTML += ` <div class="end-quizz-box">
                             <div class="end-quizz-title">
-                                <h2><strong>${calcRightAnswers()}% de acerto: Você é praticamente um aluno de Hogwarts!</strong></h2>
+                                <h2><strong>${calcRightAnswers()}% de acerto: ${showLevels().title}</strong></h2>
                             </div>
                             <div class="end-quizz-img-message">
-                                <img src="assets/dumbledore.png">
-                                <p>Parabéns Potterhead! Bem-vindx a Hogwarts,
-                                    aproveite o loop infinito de comida e clique 
-                                    no botão abaixo para usar o vira-tempo e reiniciar 
-                                    este teste.
-                                 </p>
+                                <img src="${showLevels().image}">
+                                <p>
+                                    ${showLevels().text}
+                                </p>
                             </div>
                         </div>
-                        <button class="restart-quizz"> Reiniciar Quizz</button>
-                        <p class="back-home">Voltar para a home</p>`;
+                        <button class="restart-quizz" onclick="restartQuizz()"> Reiniciar Quizz</button>
+                        <p class="back-home" onclick="backHome()">Voltar para a home</p>`;
     const endQuizz = document.querySelector(".end-quizz-box");
     endQuizz.scrollIntoView();
 }

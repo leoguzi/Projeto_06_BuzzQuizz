@@ -153,7 +153,7 @@ function createQuizzForm(){
     main.innerHTML = 
         `<h1 class="form-title">Comece pelo começo</h1>
         <section class="content">
-            <input class="quizz-title" type="text" placeholder="Título do seu quizz">
+            <input class="quizz-title-input" type="text" placeholder="Título do seu quizz">
             <input class="URL" type="url" placeholder="URL da imagem do seu quizz">
             <input class="questions-number" type="text" placeholder="Quantidade de perguntas do quizz">
             <input class="levels-number" type="text" placeholder="Quantidade de níveis do quizz">
@@ -162,7 +162,7 @@ function createQuizzForm(){
 }
 //validates the data and starts filling the new_quizz object
 function validateQuizzData(){
-    const title = document.querySelector(".quizz-title").value;
+    const title = document.querySelector(".quizz-title-input").value;
     const img_url = document.querySelector(".URL").value;
     const number_of_questions = document.querySelector(".questions-number").value;
     const number_of_levels = document.querySelector(".levels-number").value;
@@ -567,9 +567,14 @@ function scrollQuestion(element){
 }
 
 function endQuizz(){
+    const main = document.querySelector("main");
     main.innerHTML += ` <div class="end-quizz-box">
                             <div class="end-quizz-title">
+<<<<<<< HEAD
+                                <h2><strong>${calcRightAnswers()}% de acerto: ${showLevels().title}</strong></h2>
+=======
                                 <h3><strong>${calcRightAnswers()}% de acerto: ${showLevels().title}</strong></h3>
+>>>>>>> ca2eb5a60112bf3bcf8a9e62a2a372f0289259da
                             </div>
                             <div class="end-quizz-img-message">
                                 <img src="${showLevels().image}">

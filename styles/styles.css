@@ -9,7 +9,6 @@ body{
     background-color: #fafafa;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
 }
 
@@ -493,7 +492,6 @@ p{
         width: 45%;
     }
 }
-
 
 @media(max-width: 520px) {
     .banner{

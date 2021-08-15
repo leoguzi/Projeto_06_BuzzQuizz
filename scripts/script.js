@@ -571,11 +571,7 @@ function endQuizz(){
     const main = document.querySelector("main");
     main.innerHTML += ` <div class="end-quizz-box">
                             <div class="end-quizz-title">
-<<<<<<< HEAD
-                                <h2><strong>${calcRightAnswers()}% de acerto: ${showLevels().title}</strong></h2>
-=======
                                 <h3><strong>${calcRightAnswers()}% de acerto: ${showLevels().title}</strong></h3>
->>>>>>> ca2eb5a60112bf3bcf8a9e62a2a372f0289259da
                             </div>
                             <div class="end-quizz-img-message">
                                 <img src="${showLevels().image}">

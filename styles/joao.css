@@ -8,7 +8,7 @@ body{
 
 }
 *{
-    box-sizing: padding-box;
+    box-sizing:border-box;
 }
 main{
     display: flex;
@@ -52,7 +52,7 @@ main{
 }
 
 .question{
-     display: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;

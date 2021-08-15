@@ -2,6 +2,9 @@ const quizz_url = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/
 const main = document.querySelector(".main");
 let local_user_quizzes = getLocalQuizzesIDs();
 let new_quizz = null
+let quizzQuestions = [];
+let questionsAnswers = [];
+let answeredQuestions = 0;
 
 getAllQuizzes();
 
@@ -38,36 +41,41 @@ function getAllQuizzes(){
 //generate the thumbnails
 function showMainPage(response) {
     const quizzes = response.data;
-    main.innerHTML = `<div class="user-quizzes-title"><h1 class="title">Seus Quizzes</h1>
-                        <ion-icon class="icon" name="add-circle" onclick="createQuizzForm()"></ion-icon>
-                        </div>
-                        <ul class="user-quizzes"></ul>
-                        <h1 class="title">Todos os Quizzes</h1>
-                        <ul class="other-quizzes"></ul`;
+    main.innerHTML = 
+    `<div class="user-quizzes-title">
+        <h1 class="title">Seus Quizzes</h1>
+        <ion-icon class="icon" name="add-circle" onclick="createQuizzForm()"></ion-icon>
+    </div>
+    <ul class="user-quizzes"></ul>
+    <h1 class="title">Todos os Quizzes</h1>
+    <ul class="other-quizzes"></ul`;
 
     const user_quizzes_list = document.querySelector(".user-quizzes");
     const other_quizzes_list = document.querySelector(".other-quizzes");
     if(local_user_quizzes.length === 0){
-        user_quizzes_list.innerHTML = `<li class="no-user-quizzes">
-                                            <spam>Você não criou nenhum quizz ainda :(</spam>
-                                            <button onclick="createQuizzForm()">Criar Quizz</button>
-                                        </li>`
+        user_quizzes_list.innerHTML = 
+        `<li class="no-user-quizzes">
+            <spam>Você não criou nenhum quizz ainda :(</spam>
+            <button onclick="createQuizzForm()">Criar Quizz</button>
+        </li>`
     }
     for(let i=0; i<quizzes.length; i++){
         const is_local = local_user_quizzes.indexOf(quizzes[i].id) >= 0;
         if(is_local){
-            user_quizzes_list.innerHTML += `<li class="quizz-thumbnail" id="${quizzes[i].id}" onclick = "startQuizz(this)">
-                                                <img src = "${quizzes[i].image}"/>
-                                                <h1>${quizzes[i].title}</h1>
-                                                <div class="gradient-effect"></div>
-                                            </li>`
+            user_quizzes_list.innerHTML += 
+            `<li class="quizz-thumbnail" id="${quizzes[i].id}" onclick = "startQuizz(this)">
+                <img src = "${quizzes[i].image}"/>
+                <h1>${quizzes[i].title}</h1>
+                <div class="gradient-effect"></div>
+            </li>`
         }
         else{
-            other_quizzes_list.innerHTML += `<li class="quizz-thumbnail" id="${quizzes[i].id}" onclick = "startQuizz(this)">
-                                                <img src = "${quizzes[i].image}"/>
-                                                <h1>${quizzes[i].title}</h1>
-                                                <div class="gradient-effect"></div>
-                                            </li>`
+            other_quizzes_list.innerHTML += 
+            `<li class="quizz-thumbnail" id="${quizzes[i].id}" onclick = "startQuizz(this)">
+                <img src = "${quizzes[i].image}"/>
+                <h1>${quizzes[i].title}</h1>
+                <div class="gradient-effect"></div>
+            </li>`
         }
     }
 }
@@ -107,10 +115,17 @@ function checkStringLength(string, length){
         return false;
     }
     else{
+        return string.length >= length;
+    }
+}
+function checkTitleLength(string, length){
+    if(!string){
+        return false;
+    }
+    else{
         return string.length >= length && string.length <= 65;
     }
 }
-
 //verifies the image url
 function isValidURL(string) {
     const res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
@@ -121,7 +136,6 @@ function isValidHexColor(string){
     const res = string.match(/^#[0-9A-F]{6}$/i);
     return (res != null);
 }
-
 //cheks if all the validation results are true
 function checkBoolArray(array){
     for(let i = 0; i<array.length; i++){
@@ -134,23 +148,23 @@ function checkBoolArray(array){
 
 function createQuizzForm(){
     main.classList.add("forms");
-    main.innerHTML = `  <h1 class="form-title">Comece pelo começo</h1>
-                        <section class="content">
-                            <input class="quizz-title" type="text" placeholder="Título do seu quizz">
-                            <input class="URL" type="url" placeholder="URL da imagem do seu quizz">
-                            <input class="questions-number" type="text" placeholder="Quantidade de perguntas do quizz">
-                            <input class="levels-number" type="text" placeholder="Quantidade de níveis do quizz">
-                        </section>
-                        <button class ="form-button" onclick="validateQuizzData()">Prosseguir pra criar perguntas</button>`
+    main.innerHTML = 
+        `<h1 class="form-title">Comece pelo começo</h1>
+        <section class="content">
+            <input class="quizz-title" type="text" placeholder="Título do seu quizz">
+            <input class="URL" type="url" placeholder="URL da imagem do seu quizz">
+            <input class="questions-number" type="text" placeholder="Quantidade de perguntas do quizz">
+            <input class="levels-number" type="text" placeholder="Quantidade de níveis do quizz">
+        </section>
+        <button class ="form-button" onclick="validateQuizzData()">Prosseguir pra criar perguntas</button>`
 }
-
 //validates the data and starts filling the new_quizz object
 function validateQuizzData(){
     const title = document.querySelector(".quizz-title").value;
     const img_url = document.querySelector(".URL").value;
     const number_of_questions = document.querySelector(".questions-number").value;
     const number_of_levels = document.querySelector(".levels-number").value;
-    const data_is_valid = checkStringLength(title, 20) && isValidURL(img_url) && number_of_questions >= 3 && number_of_levels >= 2
+    const data_is_valid = checkTitleLength(title, 20) && isValidURL(img_url) && number_of_questions >= 3 && number_of_levels >= 2
     if(data_is_valid){
         new_quizz = newQuizzObject(number_of_questions, number_of_levels);
         quizz.title = title;
@@ -163,76 +177,77 @@ function validateQuizzData(){
 }
 
 function createQuestionsForm(){
-    
     main.innerHTML = `<h1 class="form-title">Crie suas perguntas</h1>
                         <div class="questions"></div>`
     const questions_form_container = main.querySelector(".questions");
     for(let i=0; i<new_quizz.questions.length; i++){ 
         if(i === 0){
-            questions_form_container.innerHTML += `<div class="question-container">
-                                                        <section class="content questions showing-question">
-                                                            <h2 class= "title">Pergunta ${i+1}</h2>
-                                                            <article class="question">
-                                                                <input class="question-text" type="text" placeholder="Texto da pergunta">
-                                                                <input class="question-color" "type="text" placeholder="Cor de fundo da pergunta">
-                                                            </article>
-                                                            <h2 class= "title">Resposta correta</h2>
-                                                            <article class="question">
-                                                                <input class="right-answer-text" type="text" placeholder="Resposta correta">
-                                                                <input class="right-answer-img" type="text" placeholder="URL da imagem">
-                                                            </article>
-                                                            <h2 class= "title">Respostas incorretas</h2>
-                                                            <article class="question wrong-answer">
-                                                                <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 1">
-                                                                <input class="wrong-answer-img" type="text" placeholder="URL da imagem 1">
-                                                            </article>
-                                                            <article class="question wrong-answer">
-                                                                <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 2">
-                                                                <input class="wrong-answer-img" type="text" placeholder="URL da imagem 2">
-                                                            </article>
-                                                            <article class="question wrong-answer">
-                                                                <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 3">
-                                                                <input class="wrong-answer-img" type="text" placeholder="URL da imagem 3">
-                                                            </article>
-                                                        </section>
-                                                        <section class="content hiden some">
-                                                            <h2 class= "title">Pergunta ${i+1}</h2>
-                                                            <ion-icon name="create-outline" onclick="showQuestion(this)"></ion-icon>
-                                                        </section>
-                                                    </div>`;
+            questions_form_container.innerHTML += 
+            `<div class="question-container">
+                    <section class="content questions showing-question">
+                        <h2 class= "title">Pergunta ${i+1}</h2>
+                        <article class="question">
+                            <input class="question-text" type="text" placeholder="Texto da pergunta">
+                            <input class="question-color" "type="text" placeholder="Cor de fundo da pergunta">
+                        </article>
+                        <h2 class= "title">Resposta correta</h2>
+                        <article class="question">
+                            <input class="right-answer-text" type="text" placeholder="Resposta correta">
+                            <input class="right-answer-img" type="text" placeholder="URL da imagem">
+                        </article>
+                        <h2 class= "title">Respostas incorretas</h2>
+                        <article class="question wrong-answer">
+                            <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 1">
+                            <input class="wrong-answer-img" type="text" placeholder="URL da imagem 1">
+                        </article>
+                        <article class="question wrong-answer">
+                            <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 2">
+                            <input class="wrong-answer-img" type="text" placeholder="URL da imagem 2">
+                        </article>
+                        <article class="question wrong-answer">
+                            <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 3">
+                            <input class="wrong-answer-img" type="text" placeholder="URL da imagem 3">
+                        </article>
+                    </section>
+                    <section class="content hiden some">
+                        <h2 class= "title">Pergunta ${i+1}</h2>
+                        <ion-icon name="create-outline" onclick="showQuestion(this)"></ion-icon>
+                    </section>
+                </div>`;
         }
         else {
-            questions_form_container.innerHTML += `<div class="question-container">
-                                                        <section class="content questions some">
-                                                            <h2 class ="title">Pergunta ${i+1}</h2>
-                                                            <article class="question">
-                                                                <input class="question-text" type="text" placeholder="Texto da pergunta">
-                                                                <input class="question-color" "type="text" placeholder="Cor de fundo da pergunta">
-                                                            </article>
-                                                            <h2 class= "title">Resposta correta</h2>
-                                                            <article class="question">
-                                                                <input class="right-answer-text" type="text" placeholder="Resposta correta">
-                                                                <input class="right-answer-img" type="text" placeholder="URL da imagem">
-                                                            </article>
-                                                            <h2 class= "title">Respostas incorretas</h2>
-                                                            <article class="question wrong-answer">
-                                                                <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 1">
-                                                                <input class="wrong-answer-img" type="text" placeholder="URL da imagem 1">
-                                                            </article>
-                                                            <article class="question wrong-answer">
-                                                                <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 2">
-                                                                <input class="wrong-answer-img" type="text" placeholder="URL da imagem 2">
-                                                            </article>
-                                                            <article class="question wrong-answer">
-                                                                <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 3">
-                                                                <input class="wrong-answer-img" type="text" placeholder="URL da imagem 3">
-                                                            </article>
-                                                        </section>
-                                                        <section class="content hiden">
-                                                            <h2 class= "title">Pergunta ${i+1}</h2>
-                                                            <ion-icon name="create-outline" onclick="showQuestion(this)"></ion-icon>
-                                                        </section>
-                                                    </div>`;
+            questions_form_container.innerHTML += 
+            `<div class="question-container">
+                <section class="content questions some">
+                    <h2 class ="title">Pergunta ${i+1}</h2>
+                    <article class="question">
+                        <input class="question-text" type="text" placeholder="Texto da pergunta">
+                        <input class="question-color" "type="text" placeholder="Cor de fundo da pergunta">
+                    </article>
+                    <h2 class= "title">Resposta correta</h2>
+                    <article class="question">
+                        <input class="right-answer-text" type="text" placeholder="Resposta correta">
+                        <input class="right-answer-img" type="text" placeholder="URL da imagem">
+                    </article>
+                    <h2 class= "title">Respostas incorretas</h2>
+                    <article class="question wrong-answer">
+                        <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 1">
+                        <input class="wrong-answer-img" type="text" placeholder="URL da imagem 1">
+                    </article>
+                    <article class="question wrong-answer">
+                        <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 2">
+                        <input class="wrong-answer-img" type="text" placeholder="URL da imagem 2">
+                    </article>
+                    <article class="question wrong-answer">
+                        <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 3">
+                        <input class="wrong-answer-img" type="text" placeholder="URL da imagem 3">
+                    </article>
+                </section>
+                <section class="content hiden">
+                    <h2 class= "title">Pergunta ${i+1}</h2>
+                    <ion-icon name="create-outline" onclick="showQuestion(this)"></ion-icon>
+                </section>
+            </div>`;
         }
     }
     questions_form_container.innerHTML += `<button class="form-button"onclick="validateQuestionsData()">Prosseguir pra criar níveis</button>`;
@@ -398,15 +413,12 @@ function validateLevelsData(){
     new_quizz.levels = [];
     let percents = [];
     let validOnes = 0;
-
     for(let i=0; i<all_levels.length; i++){
         const level_title = all_levels[i].querySelector(".level-title").value;
         const min_percent = all_levels[i].querySelector(".min-percent").value;
         const URL = all_levels[i].querySelector(".level-URL").value;
         const description = all_levels[i].querySelector(".description").value;
-
-            percents.push(Number(min_percent));
-        
+        percents.push(Number(min_percent));
         const data_is_valid = checkStringLength(level_title, 10) && isValidURL(URL) && isBetween0And100(min_percent) && checkStringLength(description, 30);
         if(data_is_valid){
             new_quizz.levels.push({
@@ -415,22 +427,17 @@ function validateLevelsData(){
                 text: description,
                 minValue: Number(min_percent)
             });
-
-            validOnes++;
-            
+            validOnes++; 
         }
     }
-
     console.log(validOnes, percents)
-
     if(validOnes === all_levels.length && atLeastOneZero(percents)){
         sendQuizzToServer();
-    }else{
+    }
+    else{
         alert("Algo está errado! Verifique os dados.");
     }
-
 }
-
 
 function sendQuizzToServer(){
     axios.post(`${quizz_url}quizzes`, new_quizz)
@@ -442,12 +449,8 @@ function sendQuizzToServer(){
 function finishQuizz(object){
     console.log(object);
     addLocalQuizzID(object.data.id);
-
-
     axios.get(`${quizz_url}quizzes/${object.data.id}`)
-        .then(showCreatedQuizz);
-
-    
+    .then(showCreatedQuizz); 
 }
 
 function showCreatedQuizz(object){
@@ -460,4 +463,130 @@ function showCreatedQuizz(object){
                             <button class="form-button">Acessar Quizz</button>
                             <p>Voltar pra home</p>
                         </div>`
+}
+
+function startQuizz(thumbnail){
+    const quizz_id = thumbnail.getAttribute("id");
+    let promise = axios.get(quizz_url + "quizzes/" + quizz_id);
+    promise.then(getQuizz);
+    quizzQuestions = [];
+    questionsAnswers = [];
+    answeredQuestions = 0;
+}
+
+function getQuizz(response){ 
+
+    quizzTitle(response.data);
+    quizzQuestions = response.data.questions;
+    showQuestions(quizzQuestions);
+ }
+
+ function quizzTitle(title){
+    
+    main.innerHTML = `  <div class="banner" id="banner-img">
+                        </div>
+                        <div class="quizz-title" >
+                            <h1></h1> 
+                        </div>
+                        <ul>
+                        </ul> `;
+    const quizzTitle = document.querySelector('.quizz-title h1');
+    const bannerImg = title.image;
+    document.getElementById('banner-img').style.backgroundImage = `url(${bannerImg})`;;
+    quizzTitle.innerHTML = title.title; 
+}
+
+function showQuestions(quizzQuestions){
+    const questions = document.querySelector("ul")
+    let o = 0;
+    let p = 0;
+    for(let i = 0; i < quizzQuestions.length; i++){
+        questions.innerHTML +=` <li class="question-box" >
+                                    <div class="question">
+                                         ${quizzQuestions[i].title}
+                                    </div> 
+                                    <div class="answers" id="${i}">
+                                    </div>
+                                </li>`;
+        let = quizzAnswers = quizzQuestions[i].answers;
+        quizzAnswers.sort(sortAnswers);
+        let answers = document.getElementById(i);
+        for(let j = 0; j < quizzAnswers.length; j++){
+            answers.innerHTML +=`<option class="answer" onclick="selectAnswer(this)" id="${quizzAnswers[j].isCorrectAnswer}">
+                                    <img src="${quizzAnswers[j].image}" >
+                                    <strong>${quizzAnswers[j].text}</strong>
+                                </option>`;
+        
+        }
+        answers = [];   
+    }
+}
+
+function sortAnswers(){
+    
+    return Math.floor(Math.random() * 10);
+}
+
+function selectAnswer(element){
+    const answers = element.parentNode.querySelectorAll(".answers > .answer")
+    for(let i = 0; i<answers.length; i++){
+        answers[i].classList.add("opac");
+        answers[i].onclick = '';
+        if(answers[i].id === 'true'){
+            answers[i].classList.add("green");
+        }else{
+            answers[i].classList.add("red");
+        }
+        
+    }
+    element.classList.remove("opac");
+    questionsAnswers.push(element.id);
+    if(answeredQuestions === element.parentNode.parentNode.parentNode.childElementCount){
+        setTimeout(endQuizz, 2000);
+        
+    }
+    answeredQuestions++;
+    console.log(questionsAnswers);
+    setTimeout(scrollQuestion, 2000, element);
+}
+
+function scrollQuestion(element){
+    let questionsBox = element.parentNode.parentNode;
+    if(questionsBox.nextElementSibling !== null){
+        questionsBox.nextElementSibling.scrollIntoView();
+    }
+}
+
+function endQuizz(){
+    main.innerHTML += ` <div class="end-quizz-box">
+                            <div class="end-quizz-title">
+                                <h2><strong>${calcRightAnswers()}% de acerto: Você é praticamente um aluno de Hogwarts!</strong></h2>
+                            </div>
+                            <div class="end-quizz-img-message">
+                                <img src="assets/dumbledore.png">
+                                <p>Parabéns Potterhead! Bem-vindx a Hogwarts,
+                                    aproveite o loop infinito de comida e clique 
+                                    no botão abaixo para usar o vira-tempo e reiniciar 
+                                    este teste.
+                                 </p>
+                            </div>
+                        </div>
+                        <button class="restart-quizz"> Reiniciar Quizz</button>
+                        <p class="back-home">Voltar para a home</p>`;
+    const endQuizz = document.querySelector(".end-quizz-box");
+    endQuizz.scrollIntoView();
+}
+
+function calcRightAnswers(){
+    let trueAnswers = [];
+    for(let i =0 ; i < questionsAnswers.length; i++){
+        if(questionsAnswers[i] === 'true'){
+            trueAnswers.push(questionsAnswers[i]);
+        }
+    }
+    console.log("true: ", trueAnswers.length );
+    console.log("total: ", questionsAnswers.length);
+    let point = trueAnswers.length/questionsAnswers.length;
+    console.log(point);
+    return Math.round(point*100)
 }

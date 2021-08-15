@@ -28,7 +28,7 @@ function quizzTitle(title){
     main.innerHTML = `  <div class="banner" id="banner-img">
                         </div>
                         <div class="quizz-title" >
-                            <h1></h1> 
+                            <h1 class="title-quizz"></h1> 
                         </div>
                         <ul>
                         </ul> `;
@@ -57,7 +57,7 @@ function showQuestions(quizzQuestions){
         for(let j = 0; j < quizzAnswers.length; j++){
             answers.innerHTML +=`<option class="answer" onclick="selectAnswer(this)" id="${quizzAnswers[j].isCorrectAnswer}">
                                     <img src="${quizzAnswers[j].image}" >
-                                    <strong>${quizzAnswers[j].text}</strong>
+                                    <strong class="quizz-answer-text">${quizzAnswers[j].text}</strong>
                                 </option>`;
         
         }

@@ -4,7 +4,8 @@ let local_user_quizzes = getLocalQuizzesIDs();
 let new_quizz = null
 let quizzQuestions = [];
 let questionsAnswers = [];
-let answeredQuestions = 0;
+let answeredQuestions = 1;
+let levels = []
 
 getAllQuizzes();
 
@@ -471,13 +472,14 @@ function startQuizz(thumbnail){
     promise.then(getQuizz);
     quizzQuestions = [];
     questionsAnswers = [];
-    answeredQuestions = 0;
+    answeredQuestions = 1;
 }
 
 function getQuizz(response){ 
 
     quizzTitle(response.data);
     quizzQuestions = response.data.questions;
+    levels = response.data.levels
     showQuestions(quizzQuestions);
  }
 
@@ -486,7 +488,7 @@ function getQuizz(response){
     main.innerHTML = `  <div class="banner" id="banner-img">
                         </div>
                         <div class="quizz-title" >
-                            <h1></h1> 
+                            <h1 class="title-quizz"></h1> 
                         </div>
                         <ul>
                         </ul> `;
@@ -502,7 +504,7 @@ function showQuestions(quizzQuestions){
     let p = 0;
     for(let i = 0; i < quizzQuestions.length; i++){
         questions.innerHTML +=` <li class="question-box" >
-                                    <div class="question">
+                                    <div class="question-quizz">
                                          ${quizzQuestions[i].title}
                                     </div> 
                                     <div class="answers" id="${i}">
@@ -514,7 +516,9 @@ function showQuestions(quizzQuestions){
         for(let j = 0; j < quizzAnswers.length; j++){
             answers.innerHTML +=`<option class="answer" onclick="selectAnswer(this)" id="${quizzAnswers[j].isCorrectAnswer}">
                                     <img src="${quizzAnswers[j].image}" >
-                                    <strong>${quizzAnswers[j].text}</strong>
+                                    <div class="quizz-answer-text">
+                                        ${quizzAnswers[j].text}
+                                    </div>
                                 </option>`;
         
         }
@@ -541,12 +545,14 @@ function selectAnswer(element){
     }
     element.classList.remove("opac");
     questionsAnswers.push(element.id);
+    console.log(element.parentNode.parentNode.parentNode.childElementCount)
     if(answeredQuestions === element.parentNode.parentNode.parentNode.childElementCount){
         setTimeout(endQuizz, 2000);
-        
+        console.log("ok")
     }
+    console.log(answeredQuestions)
     answeredQuestions++;
-    console.log(questionsAnswers);
+    
     setTimeout(scrollQuestion, 2000, element);
 }
 
@@ -560,19 +566,17 @@ function scrollQuestion(element){
 function endQuizz(){
     main.innerHTML += ` <div class="end-quizz-box">
                             <div class="end-quizz-title">
-                                <h2><strong>${calcRightAnswers()}% de acerto: Você é praticamente um aluno de Hogwarts!</strong></h2>
+                                <h3><strong>${calcRightAnswers()}% de acerto: ${showLevels().title}</strong></h3>
                             </div>
                             <div class="end-quizz-img-message">
-                                <img src="assets/dumbledore.png">
-                                <p>Parabéns Potterhead! Bem-vindx a Hogwarts,
-                                    aproveite o loop infinito de comida e clique 
-                                    no botão abaixo para usar o vira-tempo e reiniciar 
-                                    este teste.
-                                 </p>
+                                <img src="${showLevels().image}">
+                                <p>
+                                    ${showLevels().text}
+                                </p>
                             </div>
                         </div>
-                        <button class="restart-quizz"> Reiniciar Quizz</button>
-                        <p class="back-home">Voltar para a home</p>`;
+                        <button class="restart-quizz" onclick="restartQuizz()"> Reiniciar Quizz</button>
+                        <p class="back-home" onclick="backHome()">Voltar para a home</p>`;
     const endQuizz = document.querySelector(".end-quizz-box");
     endQuizz.scrollIntoView();
 }
@@ -589,4 +593,13 @@ function calcRightAnswers(){
     let point = trueAnswers.length/questionsAnswers.length;
     console.log(point);
     return Math.round(point*100)
+}
+
+function showLevels(){
+    let point = calcRightAnswers();
+    for (let i = levels.length-1; i>= 0; i--){
+        if(point > levels[i].minValue){
+            return levels[i];
+        }
+    }
 }

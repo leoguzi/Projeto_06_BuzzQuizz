@@ -462,11 +462,11 @@ function finishQuizz(object){
 function showCreatedQuizz(object){
     main.innerHTML = `<div class="finish">
                             <h1 class="title">Seu quizz está pronto!</h1>
-                            <div class="quizz-finished">
+                            <div id="${object.data.id}" class="quizz-finished onclick="startQuizz(this)"">
                                 <img src=${object.data.image}>
                                 <span>${object.data.title}</span>
                             </div>        
-                            <button class="form-button" onclick="getQuizz(${object})">Acessar Quizz</button>
+                            <button id="${object.data.id}" class="form-button" onclick="startQuizz(this)">Acessar Quizz</button>
                             <p onclick="backHome()">Voltar pra home</p>
                         </div>`
 }
@@ -489,6 +489,8 @@ function getQuizz(response){
     console.log(levels);
     showQuestions(quizzQuestions);
  }
+
+ 
 
  function quizzTitle(title){
     

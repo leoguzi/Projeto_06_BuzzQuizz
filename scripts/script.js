@@ -1,9 +1,11 @@
 const quizz_url = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/"
 const main = document.querySelector(".main");
 let local_user_quizzes = getLocalQuizzesIDs();
-let new_quizz = null
+let new_quizz = newQuizzObject(2, 2);
 
-getAllQuizzes();
+//getAllQuizzes();
+createQuestionsForm();
+
 
 //gets the IDs from the quizzes created locally
 function getLocalQuizzesIDs(){
@@ -182,15 +184,15 @@ function createQuestionsForm(){
                                                                 <input class="right-answer-img" type="text" placeholder="URL da imagem">
                                                             </article>
                                                             <h2 class= "title">Respostas incorretas</h2>
-                                                            <article class="question">
+                                                            <article class="question wrong-answer">
                                                                 <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 1">
                                                                 <input class="wrong-answer-img" type="text" placeholder="URL da imagem 1">
                                                             </article>
-                                                            <article class="question">
+                                                            <article class="question wrong-answer">
                                                                 <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 2">
                                                                 <input class="wrong-answer-img" type="text" placeholder="URL da imagem 2">
                                                             </article>
-                                                            <article class="question">
+                                                            <article class="question wrong-answer">
                                                                 <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 3">
                                                                 <input class="wrong-answer-img" type="text" placeholder="URL da imagem 3">
                                                             </article>
@@ -215,15 +217,15 @@ function createQuestionsForm(){
                                                                 <input class="right-answer-img" type="text" placeholder="URL da imagem">
                                                             </article>
                                                             <h2 class= "title">Respostas incorretas</h2>
-                                                            <article class="question">
+                                                            <article class="question wrong-answer">
                                                                 <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 1">
                                                                 <input class="wrong-answer-img" type="text" placeholder="URL da imagem 1">
                                                             </article>
-                                                            <article class="question">
+                                                            <article class="question wrong-answer">
                                                                 <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 2">
                                                                 <input class="wrong-answer-img" type="text" placeholder="URL da imagem 2">
                                                             </article>
-                                                            <article class="question">
+                                                            <article class="question wrong-answer">
                                                                 <input class="wrong-answer-text" type="text" placeholder="Resposta incorreta 3">
                                                                 <input class="wrong-answer-img" type="text" placeholder="URL da imagem 3">
                                                             </article>
@@ -272,21 +274,22 @@ function validateQuestionsData(){
         else{
             validated_data.push(false)
         }
-            for(let j=0; j < wrong_answers.length; j++){
-                const wrong_answer = wrong_answers[j].querySelector(".wrong-answer-text").value;
-                const wrong_answer_img = wrong_answers[j].querySelector(".wrong-answer-img").value;
-                is_valid = checkStringLength(wrong_answer, 1) && isValidURL(wrong_answer_img);
-                if(is_valid){
-                    const answer = {
-                                    text: wrong_answer,
-                                    image: wrong_answer_img,
-                                    isCorrectAnswer: false
-                                    } 
-                    new_quizz.questions[i].answers.push(answer);
-                    at_least_one_wrong_answer = true;
-                    validated_data.push(true);
-                }
+        for(let j=0; j < wrong_answers.length; j++){
+            const wrong_answer = wrong_answers[j].querySelector(".wrong-answer-text").value;
+            const wrong_answer_img = wrong_answers[j].querySelector(".wrong-answer-img").value;
+            is_valid = checkStringLength(wrong_answer, 1) && isValidURL(wrong_answer_img);
+            if(is_valid){
+                const answer = {
+                                text: wrong_answer,
+                                image: wrong_answer_img,
+                                isCorrectAnswer: false
+                                } 
+                new_quizz.questions[i].answers.push(answer);
+                at_least_one_wrong_answer = true;
+                console.log(is_valid);
+                validated_data.push(true);
             }
+        }
     }
     is_valid = checkBoolArray(validated_data);
     console.log(new_quizz);
@@ -323,7 +326,6 @@ function showLevel(element){
     showingInputs.classList.remove("showing-level");
     showingInputs.classList.add("some");
     hideInputs.classList.remove("some");
-
     hidenInputs.classList.add("some");
     showInputs.classList.remove("some");
     showInputs.classList.add("showing-level");
@@ -354,42 +356,40 @@ function atLeastOneZero(array){
 }
 
 function createLevelsForm(){
-    main.innerHTML = `<h1 class="title">Agora, decida os níveis</h3>
-                        <div class="container levels"></div>`;
-    const levels_form_container = main.querySelector(".container.levels");
+    main.innerHTML = `<h1 class="title">Agora, decida os níveis</h1>
+                        <div class="levels"></div>`;
+    const levels_form_container = main.querySelector(".levels");
 
     for(let i=0; i<quizz.levels.length; i++){ 
         if(i === 0){
             levels_form_container.innerHTML +=  `<div class="container-level">
-            <section class="content questions showing-level">
-            <h3>Nível ${i+1}</h3>
-            <input class="level-title" type="text" placeholder="Título do nível">
-            <input class="min-percent" type="text" placeholder="% de acerto mínima">
-            <input class="level-URL" type="text" placeholder="URL da imagem do nível">
-            <input class="description" type="text" placeholder="Descrição do nível">
-        </section>
-
-        <section class="content hiden some">
-            <h4>Nível ${i+1}</h4>
-            <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
-        </section>
-        </div>`;
+                                                    <section class="content questions showing-level">
+                                                        <h class="title"2>Nível ${i+1}</h2>
+                                                        <input class="level-title" type="text" placeholder="Título do nível">
+                                                        <input class="min-percent" type="text" placeholder="% de acerto mínima">
+                                                        <input class="level-URL" type="text" placeholder="URL da imagem do nível">
+                                                        <input class="description" type="text" placeholder="Descrição do nível">
+                                                    </section>
+                                                    <section class="content hiden some">
+                                                        <h2 class"title">Nível ${i+1}</h2>
+                                                        <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
+                                                    </section>
+                                                </div>`;
         }
         else {
             levels_form_container.innerHTML +=`<div class="container-level">
-            <section class="content questions some">
-            <h3>Nível ${i+1}</h3>
-            <input class="level-title" type="text" placeholder="Título do nível">
-            <input class="min-percent" type="text" placeholder="% de acerto mínima">
-            <input class="level-URL" type="text" placeholder="URL da imagem do nível">
-            <input class="description" type="text" placeholder="Descrição do nível">
-        </section>
-
-        <section class="content hiden">
-            <h4>Nível ${i+1}</h4>
-            <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
-        </section>
-        </div>`;
+                                                    <section class="content questions some">
+                                                        <h2 class="title">Nível ${i+1}</h2>
+                                                        <input class="level-title" type="text" placeholder="Título do nível">
+                                                        <input class="min-percent" type="text" placeholder="% de acerto mínima">
+                                                        <input class="level-URL" type="text" placeholder="URL da imagem do nível">
+                                                        <input class="description" type="text" placeholder="Descrição do nível">
+                                                    </section>
+                                                    <section class="content hiden">
+                                                        <h2 class="title">Nível ${i+1}</h2>
+                                                        <ion-icon name="create-outline" onclick="showLevel(this)"></ion-icon>
+                                                    </section>
+                                                </div>`;
         }
     }
     levels_form_container.innerHTML += `<button onclick="validateLevelsData()">Finalizar Quizz</button>`;

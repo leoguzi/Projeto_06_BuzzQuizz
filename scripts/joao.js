@@ -21,7 +21,6 @@ function quizzTitle(title){
 
 function showQuestions(quizzQuestions){
     const questions = document.querySelector("ul")
-    console.log(quizzQuestions)
     let o = 0;
     let p = 0;
     for(let i = 0; i < quizzQuestions.length; i++){
@@ -36,10 +35,10 @@ function showQuestions(quizzQuestions){
         quizzAnswers.sort(sortAnswers);
         let answers = document.getElementById(i);
         for(let j = 0; j < quizzAnswers.length; j++){
-            answers.innerHTML +=`<div class="answer" onclick="selectAnswer(this)">
+            answers.innerHTML +=`<option class="answer" onclick="selectAnswer(this)">
                                     <img src="${quizzAnswers[j].image}" >
                                     <strong>${quizzAnswers[j].text}</strong>
-                                </div>`; 
+                                </option>`;
         }
         answers = [];   
     }
@@ -51,12 +50,19 @@ function sortAnswers(){
 }
 
 function selectAnswer(element){
-    const pai = element.parentNode.querySelectorAll(".answers > .answer")
-    for(let i = 0; i<pai.length; i++){
-        console.log(pai[i]);
-        pai[i].classList.add("opac");
+    const answers = element.parentNode.querySelectorAll(".answers > .answer")
+    for(let i = 0; i<answers.length; i++){
+        answers[i].classList.add("opac");
+        answers[i].onclick = '';
     }
-    console.log("ok");
-    element.classList.remove("opac");   
+    element.classList.remove("opac");
+    setTimeout(scrollQuestion, 2000, element);
 }
 
+function scrollQuestion(element){
+    let questionsBox = element.parentNode.parentNode;
+    
+    if(questionsBox.nextElementSibling !== null){
+        questionsBox.nextElementSibling.scrollIntoView();
+    }
+}

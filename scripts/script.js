@@ -54,7 +54,11 @@ function showMainPage(response) {
 
     const user_quizzes_list = document.querySelector(".user-quizzes");
     const other_quizzes_list = document.querySelector(".other-quizzes");
-    if(local_user_quizzes.length === 0){
+    let still_in_server = false;
+    for(let i=0; i<quizzes.length; i++){
+        still_in_server = local_user_quizzes.indexOf(quizzes[i].id) >= 0;
+    }
+    if(local_user_quizzes.length === 0 || !still_in_server){
         user_quizzes_list.innerHTML = 
         `<li class="no-user-quizzes">
             <spam>Você não criou nenhum quizz ainda :(</spam>
@@ -458,12 +462,13 @@ function finishQuizz(object){
 function showCreatedQuizz(object){
     main.innerHTML = `<div class="finish">
                             <h1 class="title">Seu quizz está pronto!</h1>
-                            <div class="quizz-finished">
+                            <div id="${object.data.id}" class="quizz-finished onclick="startQuizz(this)"">
                                 <img src=${object.data.image}>
                                 <span>${object.data.title}</span>
                             </div>        
-                            <button class="form-button">Acessar Quizz</button>
-                            <p>Voltar pra home</p>
+
+                            <button id="${object.data.id}" class="form-button" onclick="startQuizz(this)">Acessar Quizz</button>
+                            <p onclick="backHome()">Voltar pra home</p>
                         </div>`;
 }
 
@@ -484,6 +489,8 @@ function getQuizz(response){
     levels = response.data.levels
     showQuestions(quizzQuestions);
  }
+
+ 
 
  function quizzTitle(title){
     
@@ -613,6 +620,7 @@ function restartQuizz(){
 }
 
 function backHome(){
+    main.classList.remove("forms");
     getAllQuizzes();
 }
 

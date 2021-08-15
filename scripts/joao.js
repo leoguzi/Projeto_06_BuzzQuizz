@@ -146,7 +146,7 @@ function showLevels(){
 function restartQuizz(){
     questionsAnswers = [];
     answeredQuestions = 1;
-    start();
+    
 }
 
 function backHome(){

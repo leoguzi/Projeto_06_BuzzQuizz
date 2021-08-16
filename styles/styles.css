@@ -282,6 +282,7 @@ p{
     filter: brightness(0.6);
     position: relative;
 }
+
 .quizz-title{
     display: flex;
     position: absolute;

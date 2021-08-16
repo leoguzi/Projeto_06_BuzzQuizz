@@ -54,11 +54,13 @@ function showMainPage(response) {
 
     const user_quizzes_list = document.querySelector(".user-quizzes");
     const other_quizzes_list = document.querySelector(".other-quizzes");
-    let still_in_server = false;
     for(let i=0; i<quizzes.length; i++){
-        still_in_server = local_user_quizzes.indexOf(quizzes[i].id) >= 0;
+        if (local_user_quizzes.indexOf(quizzes[i].id) === -1){
+            removeLocalQuizzID(quizzes[i].id)
+        }
     }
-    if(local_user_quizzes.length === 0 || !still_in_server){
+    local_user_quizzes = getLocalQuizzesIDs();
+    if(local_user_quizzes.length === 0){
         user_quizzes_list.innerHTML = 
         `<li class="no-user-quizzes">
             <spam>Você não criou nenhum quizz ainda :(</spam>
@@ -523,7 +525,7 @@ function showQuestions(quizzQuestions){
         let answers = document.getElementById(i);
         for(let j = 0; j < quizzAnswers.length; j++){
             answers.innerHTML +=`<option class="answer" onclick="selectAnswer(this)" id="${quizzAnswers[j].isCorrectAnswer}">
-                                    <img src="${quizzAnswers[j].image}" >
+                                    <img src="${quizzAnswers[j].image}">
                                     <div class="quizz-answer-text">
                                         ${quizzAnswers[j].text}
                                     </div>

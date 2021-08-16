@@ -565,10 +565,7 @@ option{
         height: 40%;
         width: 45%;
     }
-    .answer:hover{
-        opacity: 0.5;
-        color: red;
-    }
+
     .end-quizz-img-message{
         display: flex;
         height: 75%;
@@ -587,28 +584,28 @@ option{
     }
 
     .end-quizz-title{
-        height: 15%;
+        min-height: 60px;
         font-size: 14px;
         text-align: center;
     }
     .end-quizz-box{
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-around;
         
         background-color: #ffffff;
         width: 65vw;
-        height: 70vh;
+        height: auto;
         padding: 2vh 2.5vw 2vh 2.5vw;
     }
     .restart-quizz{
-        font-size: 12px;
-        width: 18vw;
-        height: 6vh;
+        font-size: 14px;
+        width: 30vw;
+        height: 5vh;
     }
     
     .back-home{
-        font-size: 12px;
+        font-size: 14px;
     }
     
 }

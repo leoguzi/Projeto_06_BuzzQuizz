@@ -531,7 +531,7 @@ function showQuestions(quizzQuestions){
         let answers = document.getElementById(i);
         for(let j = 0; j < quizzAnswers.length; j++){
             answers.innerHTML +=`<option class="answer" onclick="selectAnswer(this)" id="${quizzAnswers[j].isCorrectAnswer}">
-                                    <img src="${quizzAnswers[j].image}">
+                                    <img src="${quizzAnswers[j].image}" alt="">
                                     <div class="quizz-answer-text">
                                         ${quizzAnswers[j].text}
                                     </div>

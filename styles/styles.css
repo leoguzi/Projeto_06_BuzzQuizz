@@ -76,7 +76,6 @@ h2.title{
     align-self: flex-start;
 }
 
-
 ul.user-quizzes, 
 ul.other-quizzes{
     margin-bottom: 30px;
@@ -84,6 +83,14 @@ ul.other-quizzes{
     flex-wrap: wrap;
     width: 100%;
     justify-content: space-between;
+}
+
+ul.user-quizzes{
+    justify-content: flex-start;
+}
+
+.user-quizzes li.quizz-thumbnail{
+    margin-right: 13px;
 }
 
 .no-user-quizzes{
@@ -327,6 +334,7 @@ p{
    height: 20%;
    overflow: hidden;    
 }
+
 .answers{
     height: 77%;
     display: flex;
@@ -334,6 +342,7 @@ p{
     justify-content: space-around;
     align-items: center;
 }
+
 .answer{
     font-size: 20px;
     display: flex;
@@ -343,6 +352,7 @@ p{
     width: 45%;
     cursor: pointer;
 }
+
 .answer img{
     width: 100%;
     height: 85%;
@@ -351,6 +361,7 @@ p{
 .opac{
     opacity: 0.5;  
 }
+
 .green{
     color: green;
 }
@@ -413,6 +424,7 @@ p{
     border: none;
     cursor: pointer;
 }
+
 .back-home{
     color: rgba(129, 129, 129, 1);
     font-size: 20px;
@@ -467,10 +479,9 @@ option{
         justify-content: space-around;
     }
 
-    /* .no-user-quizzes{
-        width: 90vw;
-
-    } */
+    .user-quizzes li{
+        margin-right: 0;
+    }
 
     .forms-container{
         width: 100%;
@@ -480,9 +491,11 @@ option{
     width: 324px;
     
     }
+
     .quizz-title{
         font-size: 26px;
     }
+
     .question-box{
         width: 65vw;
     }

@@ -482,6 +482,7 @@ function startQuizz(thumbnail){
     restartQuizzObject = thumbnail;
     const quizz_id = thumbnail.getAttribute("id");
     let promise = axios.get(quizz_url + "quizzes/" + quizz_id);
+    console.log("promise: ", promise)
     promise.then(getQuizz);
     quizzQuestions = [];
     questionsAnswers = [];
@@ -489,7 +490,7 @@ function startQuizz(thumbnail){
 }
 
 function getQuizz(response){ 
-    console.log(response.data)
+    console.log("response: ",response )
     quizzTitle(response.data);
     quizzQuestions = response.data.questions;
     levels = response.data.levels
@@ -530,12 +531,13 @@ function showQuestions(quizzQuestions){
         quizzAnswers.sort(sortAnswers);
         let answers = document.getElementById(i);
         for(let j = 0; j < quizzAnswers.length; j++){
-            answers.innerHTML +=`<option class="answer" onclick="selectAnswer(this)" id="${quizzAnswers[j].isCorrectAnswer}">
-                                    <img src="${quizzAnswers[j].image}" alt="">
+           
+            answers.innerHTML +=`<div class="answer" onclick="selectAnswer(this)" id="${quizzAnswers[j].isCorrectAnswer}">
+                                    <img src="${quizzAnswers[j].image}" >
                                     <div class="quizz-answer-text">
                                         ${quizzAnswers[j].text}
                                     </div>
-                                </option>`;
+                                </div>`;
         
         }
         answers = [];   
@@ -606,14 +608,14 @@ function calcRightAnswers(){
     console.log("true: ", trueAnswers.length );
     console.log("total: ", questionsAnswers.length);
     let point = trueAnswers.length/questionsAnswers.length;
-    console.log(point);
+    console.log("point: ",point);
     return Math.round(point*100);
 }
 
 function showLevels(){
     let point = calcRightAnswers();
     levels.sort(order);
-    for (let i = levels.length-1; i>= 0; i--){
+    for (let i = levels.length-1; i> -1; i--){
         if(point > levels[i].minValue){
             return levels[i];
         }

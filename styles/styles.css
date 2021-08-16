@@ -351,6 +351,7 @@ p{
     height: 45%;
     width: 45%;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .answer img{
@@ -443,9 +444,9 @@ p{
     
 }
 
-option{
+/* option{
     overflow: hidden;
-}
+} */
 
 .level-text{
     overflow: hidden;   

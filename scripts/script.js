@@ -577,7 +577,7 @@ function endQuizz(){
                             </div>
                             <div class="end-quizz-img-message">
                                 <img src="${showLevels().image}">
-                                <p>
+                                <p class="level-text">
                                     ${showLevels().text}
                                 </p>
                             </div>

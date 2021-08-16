@@ -485,7 +485,7 @@ function startQuizz(thumbnail){
 }
 
 function getQuizz(response){ 
-
+    console.log(response.data)
     quizzTitle(response.data);
     quizzQuestions = response.data.questions;
     levels = response.data.levels
@@ -520,6 +520,8 @@ function showQuestions(quizzQuestions){
                                     <div class="answers" id="${i}">
                                     </div>
                                 </li>`;
+        let questionColor = document.querySelectorAll(".question-box > .question-quizz");
+        questionColor[i].style.backgroundColor = quizzQuestions[i].color;
         let = quizzAnswers = quizzQuestions[i].answers;
         quizzAnswers.sort(sortAnswers);
         let answers = document.getElementById(i);

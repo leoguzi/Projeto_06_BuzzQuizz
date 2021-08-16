@@ -89,7 +89,7 @@ ul.other-quizzes{
     justify-content: center;
     align-items: center;
     height: 181px;
-    width: 55vw;
+    width: 100%;
     border: 1px dashed #d5d5d5;
     background-color: #fafafafa;
 }
@@ -457,10 +457,10 @@ option{
         justify-content: space-around;
     }
 
-    .no-user-quizzes{
+    /* .no-user-quizzes{
         width: 90vw;
 
-    }
+    } */
 
     .forms-container{
         width: 100%;

@@ -49,14 +49,18 @@ function showMainPage(response) {
         <ion-icon class="icon" name="add-circle" onclick="createQuizzForm()"></ion-icon>
     </div>
     <ul class="user-quizzes"></ul>
-    <h1 class="title">Todos os Quizzes</h1>
+    <h1 class="title all-quizzes">Todos os Quizzes</h1>
     <ul class="other-quizzes"></ul`;
-
     const user_quizzes_list = document.querySelector(".user-quizzes");
     const other_quizzes_list = document.querySelector(".other-quizzes");
+    let server_quizzes_ids = [];
     for(let i=0; i<quizzes.length; i++){
-        if (local_user_quizzes.indexOf(quizzes[i].id) === -1){
-            removeLocalQuizzID(quizzes[i].id)
+        server_quizzes_ids.push(quizzes[i].id)
+    }
+    for(let i=0; i<local_user_quizzes.length; i++){
+        if (server_quizzes_ids.indexOf(local_user_quizzes[i]) === -1){
+            console.log("removi o " + local_user_quizzes[i]);
+            removeLocalQuizzID(local_user_quizzes[i]);
         }
     }
     local_user_quizzes = getLocalQuizzesIDs();

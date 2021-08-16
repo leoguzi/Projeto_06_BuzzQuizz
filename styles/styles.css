@@ -7,10 +7,6 @@
 body{
     font-family: 'Roboto', sans-serif;
     background-color: #fafafa;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
 }
 
 header{
@@ -76,6 +72,10 @@ h2.title{
     cursor: pointer;
 }
 
+.all-quizzes{
+    align-self: flex-start;
+}
+
 
 ul.user-quizzes, 
 ul.other-quizzes{
@@ -135,6 +135,7 @@ ul.other-quizzes{
 
 .quizz-thumbnail h1{
     position: absolute;
+    width: 310px;
     bottom: 15px;
     left: 15px;
     color: #ffffff;
@@ -453,6 +454,7 @@ option{
     }
 
     .user-quizzes-title{
+        width: 100%;
         justify-content: space-between;
     }
 
